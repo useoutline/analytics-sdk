@@ -1,3 +1,3 @@
-import { init } from "./methods/init";
+import { init } from './methods/init'
 
-export { init };
+export default init

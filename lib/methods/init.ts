@@ -1,12 +1,13 @@
-import { getTrackingUid, createApiInstance } from '../apis'
+import { getTrackingUid, createApiInstance, getTrackingEvents } from '../apis'
 import { OUTLINE_API_ENDPOINT } from '../keys'
 import logger from '../logger'
 import state from '../state'
 import type { InitOptions } from '../types'
-import { startPageSession } from './pageSession'
+import { startPageSession, endPageSession } from './pageSession'
 import { sendEvent, sendDefaultEvent } from './sendEvent'
 import { enableSpaTracking } from './spaTracking'
 import { removeEvents, trackEvents } from './trackEvents'
+import { getPageData } from './getPageData'
 
 async function init(analyticsId: string, options?: InitOptions) {
   state.setAnalyticsId(analyticsId)
@@ -27,9 +28,14 @@ async function init(analyticsId: string, options?: InitOptions) {
 
   startTracking()
   startPageSession()
+  const page = getPageData()
+  window.addEventListener('beforeunload', () => {
+    logger.log('beforeunload')
+    endPageSession(page)
+  })
 
-  // const events = await getTrackingEvents()
-  // state.setAnalyticsEvents(events)
+  const events = await getTrackingEvents()
+  state.setAnalyticsEvents(events)
   logger.log('State', JSON.stringify(state.getState()))
 
   sendDefaultEvent('internal', 'pageview')
