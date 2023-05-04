@@ -10,12 +10,14 @@ import { removeEvents, trackEvents } from './trackEvents'
 import { getPageData } from './getPageData'
 
 async function init(analyticsId: string, options?: InitOptions) {
+  if (options?.debug) {
+    state.setDebug(true)
+  }
   state.setAnalyticsId(analyticsId)
   logger.log('Initialized with id ', analyticsId)
 
   const apiVersion = options?.apiVersion || 'v1'
   const serverUrl = options?.serverUrl || OUTLINE_API_ENDPOINT
-  logger.log('Creating url', apiVersion, serverUrl)
   createApiInstance(serverUrl, apiVersion)
   logger.log('Using API endpoint ', serverUrl, apiVersion)
 
@@ -26,26 +28,22 @@ async function init(analyticsId: string, options?: InitOptions) {
   const trackingUid = await getTrackingUid()
   state.setTrackingUid(trackingUid)
 
+  const events = await getTrackingEvents()
+  state.setAnalyticsEvents(events)
+  logger.log('State: ', JSON.stringify(state.getState(), null, 2))
+
   startTracking()
   startPageSession()
   const page = getPageData()
-  window.addEventListener('beforeunload', () => {
-    logger.log('beforeunload')
+  window.addEventListener('pagehide', () => {
+    page.meta = { event: 'pagehide' }
     endPageSession(page)
   })
-
-  const events = await getTrackingEvents()
-  state.setAnalyticsEvents(events)
-  logger.log('State', JSON.stringify(state.getState()))
 
   sendDefaultEvent('internal', 'pageview')
 
   if (options?.trackDynamicRoutes) {
     enableSpaTracking()
-  }
-
-  if (options?.debug) {
-    state.setDebug(true)
   }
 
   return {

@@ -1,31 +1,34 @@
-type TrackingState = "preinit" | "tracking" | "stopped";
+type TrackingState = 'preinit' | 'tracking' | 'stopped'
 
 type InitOptions = {
-  trackDynamicRoutes?: boolean;
-  extendPageData?: boolean;
-  serverUrl?: string;
-  apiVersion?: "v1";
-  debug?: boolean;
-};
+  trackDynamicRoutes?: boolean
+  extendPageData?: boolean
+  serverUrl?: string
+  apiVersion?: 'v1'
+  debug?: boolean
+}
 
 type PageData = {
-  path: string;
-  query?: string;
-  hash?: string;
-  fullpath?: string;
-  title?: string;
-};
+  path: string
+  query?: string
+  hash?: string
+  fullpath?: string
+  title?: string
+  meta?: Record<string, string>
+}
 
-type Selector = string | "document" | "window";
+type Selector = string | 'document' | 'window'
 
 type AnalyticsEvents = {
-  event: string;
-  selector: Selector;
-  trigger: string;
-  page?: string;
-}[];
+  event: string
+  selectorType: 'id' | 'text' | 'selector'
+  selector: Selector
+  text?: string
+  trigger: string
+  page?: string
+}[]
 
-type EventKind = "external" | "internal" | "tag-based";
+type EventKind = 'external' | 'internal' | 'tag-based'
 
 export type {
   TrackingState,
@@ -34,4 +37,4 @@ export type {
   AnalyticsEvents,
   EventKind,
   Selector,
-};
+}
