@@ -2,11 +2,11 @@
   "name": "@useoutline/analytics",
   "version": "1.0.0",
   "description": "",
-  "main": "dist/standalone/useoutline-analytics.esm.js",
+  "main": "dist/useoutline-analytics.esm.js",
   "type": "module",
-  "module": "dist/standalone/useoutline-analytics.esm.js",
-  "jsdelivr": "dist/standalone/useoutline-analytics.umd.js",
-  "unpkg": "dist/standalone/useoutline-analytics.umd.js",
+  "module": "dist/useoutline-analytics.esm.js",
+  "jsdelivr": "dist/useoutline-analytics.umd.js",
+  "unpkg": "dist/useoutline-analytics.umd.js",
   "exports": {
     ".": {
       "require": "./dist/useoutline-analytics.esm.js",
