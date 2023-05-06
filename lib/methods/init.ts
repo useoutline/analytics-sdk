@@ -13,6 +13,7 @@ async function init(analyticsId: string, options?: InitOptions) {
   if (options?.debug) {
     state.setDebug(true)
   }
+
   state.setAnalyticsId(analyticsId)
   logger.log('Initialized with id ', analyticsId)
 

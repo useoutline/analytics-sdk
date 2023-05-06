@@ -1,5 +1,6 @@
 import { OUTLINE_TRACKING_UID } from './keys'
 import state from './state'
+import { getFromStorage, setToStorage } from './storage'
 import type { AnalyticsEvents, PageData, EventKind } from './types'
 
 const api: {
@@ -23,13 +24,13 @@ function getBraveHeader() {
 }
 
 async function getTrackingUid() {
-  const outlineTrackingUid = localStorage.getItem(OUTLINE_TRACKING_UID)
+  const outlineTrackingUid = await getFromStorage(OUTLINE_TRACKING_UID)
   if (outlineTrackingUid) {
     return outlineTrackingUid
   } else {
     const res = await fetch(`${api.baseUrl}/id`, { method: 'GET' })
     const data: { id: string } = await res.json()
-    localStorage.setItem(OUTLINE_TRACKING_UID, data.id)
+    await setToStorage(OUTLINE_TRACKING_UID, data.id)
     return data.id
   }
 }

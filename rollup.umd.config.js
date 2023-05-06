@@ -5,7 +5,7 @@ export default {
   output: {
     file: 'dist/useoutline-analytics.umd.js',
     format: 'umd',
-    name: 'useoutline.analytics',
+    name: 'useOutlineAnalytics',
     compact: true,
   },
 }
