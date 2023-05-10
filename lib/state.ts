@@ -23,52 +23,8 @@ class State {
     }
   }
 
-  setTrackingState(state: TrackingState) {
-    this.state.trackingState = state
-  }
-
-  getTrackingState() {
-    return this.state.trackingState
-  }
-
-  setAnalyticsId(id: string) {
-    this.state.analyticsId = id
-  }
-
-  getAnalyticsId() {
-    return this.state.analyticsId
-  }
-
-  setTrackingUid(uid: string) {
-    this.state.trackingUid = uid
-  }
-
-  getTrackingUid() {
-    return this.state.trackingUid
-  }
-
-  setExtendedPageData(extendPageData: boolean) {
-    this.state.extendedPageData = extendPageData
-  }
-
-  getExtendedPageData() {
-    return this.state.extendedPageData
-  }
-
-  setAnalyticsEvents(events: AnalyticsEvents) {
-    this.state.analyticsEvents = events
-  }
-
-  getAnalyticsEvents() {
-    return this.state.analyticsEvents
-  }
-
-  setDebug(debug: boolean) {
-    this.state.debug = debug
-  }
-
-  getDebug() {
-    return this.state.debug
+  setState(state: StateKind | Partial<StateKind>) {
+    this.state = { ...this.state, ...state }
   }
 
   getState() {

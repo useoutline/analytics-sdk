@@ -10,7 +10,10 @@ const api: {
 }
 
 function createApiInstance(baseURL: string, apiVersion: string) {
-  api.baseUrl = new URL(`${apiVersion}/${state.getAnalyticsId()}`, baseURL).href
+  api.baseUrl = new URL(
+    `${apiVersion}/${state.getState().analyticsId}`,
+    baseURL
+  ).href
 }
 
 function getBraveHeader() {
@@ -42,7 +45,7 @@ async function getTrackingEvents() {
 }
 
 function trackEvent(eventType: EventKind, event: string, page?: PageData) {
-  const uid = state.getTrackingUid()
+  const uid = state.getState().trackingUid
   fetch(`${api.baseUrl}/event`, {
     method: 'POST',
     body: JSON.stringify({
@@ -60,7 +63,7 @@ function trackSession(
   startTimestamp: string,
   endTimestamp: string
 ) {
-  const uid = state.getTrackingUid()
+  const uid = state.getState().trackingUid
   fetch(`${api.baseUrl}/session`, {
     method: 'POST',
     body: JSON.stringify({

@@ -11,10 +11,10 @@ import { getPageData } from './getPageData'
 
 async function init(analyticsId: string, options?: InitOptions) {
   if (options?.debug) {
-    state.setDebug(true)
+    state.setState({ debug: true })
   }
 
-  state.setAnalyticsId(analyticsId)
+  state.setState({ analyticsId })
   logger.log('Initialized with id ', analyticsId)
 
   const apiVersion = options?.apiVersion || 'v1'
@@ -23,15 +23,14 @@ async function init(analyticsId: string, options?: InitOptions) {
   logger.log('Using API endpoint ', serverUrl, apiVersion)
 
   if (options?.extendPageData) {
-    state.setExtendedPageData(true)
+    state.setState({ extendedPageData: true })
   }
 
   const trackingUid = await getTrackingUid()
-  state.setTrackingUid(trackingUid)
+  state.setState({ trackingUid })
 
   const events = await getTrackingEvents()
-  state.setAnalyticsEvents(events)
-  logger.log('State: ', JSON.stringify(state.getState(), null, 2))
+  state.setState({ analyticsEvents: events })
 
   startTracking()
   startPageSession()
@@ -55,13 +54,13 @@ async function init(analyticsId: string, options?: InitOptions) {
 }
 
 function startTracking() {
-  state.setTrackingState('tracking')
+  state.setState({ trackingState: 'tracking' })
   logger.log('Tracking started')
   trackEvents()
 }
 
 function stopTracking() {
-  state.setTrackingState('stopped')
+  state.setState({ trackingState: 'stopped' })
   logger.log('Tracking stopped')
   removeEvents()
 }

@@ -12,7 +12,7 @@ function startPageSession() {
 }
 
 function endPageSession(page?: PageData) {
-  if (state.getTrackingState() !== 'tracking') return
+  if (state.getState().trackingState !== 'tracking') return
   const pageLeftTime = new Date().toISOString()
   trackSession(page || getPageData(), pageVisitedTime, pageLeftTime)
   logger.log('Page session ended and tracked')
