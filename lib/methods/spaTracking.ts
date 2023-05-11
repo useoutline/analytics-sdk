@@ -1,9 +1,9 @@
-import { trackEvent } from '../apis'
 import { PageData } from '../types'
 import { getPageData } from './getPageData'
 import { endPageSession, startPageSession } from './pageSession'
 import logger from '../logger'
 import { removeEvents, trackEvents } from './trackEvents'
+import { sendDefaultEvent } from './sendEvent'
 
 let pageBeforePopstate: PageData
 
@@ -14,6 +14,7 @@ function enableSpaTracking() {
     logger.log('Triggered pushState')
     removeEvents()
     const page = getPageData()
+    page.meta = { event: 'pushState' }
     endPageSession(page)
     pageBeforePopstate = page
     const [data, unused, url] = args
@@ -25,6 +26,7 @@ function enableSpaTracking() {
   window.addEventListener('popstate', () => {
     logger.log('Triggered popstate')
     removeEvents()
+    pageBeforePopstate.meta = { event: 'popstate' }
     endPageSession(pageBeforePopstate)
     trackPageAfterChange()
     trackEvents()
@@ -33,8 +35,7 @@ function enableSpaTracking() {
 
 function trackPageAfterChange() {
   setTimeout(() => {
-    const page = getPageData()
-    trackEvent('internal', 'pageview', page)
+    sendDefaultEvent('internal', 'pageview')
     startPageSession()
   }, 100)
 }

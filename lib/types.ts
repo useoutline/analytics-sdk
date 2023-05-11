@@ -14,8 +14,10 @@ type PageData = {
   hash?: string
   fullpath?: string
   title?: string
-  meta?: Record<string, string>
+  meta?: PageMeta
 }
+
+type PageMeta = Record<string, string | number | null | undefined>
 
 type Selector = string | 'document' | 'window'
 
@@ -37,4 +39,5 @@ export type {
   AnalyticsEvents,
   EventKind,
   Selector,
+  PageMeta,
 }
