@@ -1,5 +1,4 @@
-import { getTrackingUid, createApiInstance, getTrackingEvents } from '../apis'
-import { OUTLINE_API_ENDPOINT } from '../keys'
+import { getVisitorUid, createApiInstance, getTrackingEvents } from '../apis'
 import logger from '../logger'
 import state from '../state'
 import type { InitOptions } from '../types'
@@ -9,34 +8,29 @@ import { enableSpaTracking } from './spaTracking'
 import { removeEvents, trackEvents } from './trackEvents'
 import { getPageData } from './getPageData'
 
-async function init(analyticsId: string, options?: InitOptions) {
-  if (options?.debug) {
-    state.setState({ debug: true })
-  }
+const OUTLINE_API_ENDPOINT = 'https://api.useoutline.xyz'
 
-  state.setState({ analyticsId })
+async function init(analyticsId: string, options?: InitOptions) {
+  state.setState({ analyticsId, debug: options?.debug ? true : false })
   logger.log('Initialized with id ', analyticsId)
 
   const apiVersion = options?.apiVersion || 'v1'
   const serverUrl = options?.serverUrl || OUTLINE_API_ENDPOINT
   createApiInstance(serverUrl, apiVersion)
-  logger.log('Using API endpoint ', serverUrl, apiVersion)
 
-  if (options?.extendPageData) {
-    state.setState({ extendedPageData: true })
-  }
-
-  const trackingUid = await getTrackingUid()
-  state.setState({ trackingUid })
-
+  const visitorUid = await getVisitorUid()
   const events = await getTrackingEvents()
-  state.setState({ analyticsEvents: events })
+  state.setState({
+    visitorUid,
+    analyticsEvents: events,
+    extendedPageData: options?.extendPageData ? true : false,
+  })
 
   startTracking()
   startPageSession()
   const page = getPageData()
   window.addEventListener('pagehide', () => {
-    page.meta = { event: 'pagehide' }
+    page.meta = { ...page.meta, event: 'pagehide' }
     endPageSession(page)
   })
 

@@ -3,7 +3,7 @@ import type { AnalyticsEvents, TrackingState } from './types'
 type StateKind = {
   trackingState: TrackingState
   analyticsId: string
-  trackingUid: string
+  visitorUid: string
   extendedPageData: boolean
   analyticsEvents: AnalyticsEvents
   debug: boolean
@@ -16,7 +16,7 @@ class State {
     this.state = {
       trackingState: 'preinit',
       analyticsId: '',
-      trackingUid: '',
+      visitorUid: '',
       extendedPageData: false,
       analyticsEvents: [],
       debug: false,

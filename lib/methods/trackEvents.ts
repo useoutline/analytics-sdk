@@ -1,4 +1,3 @@
-import logger from '../logger'
 import state from '../state'
 import { Selector } from '../types'
 import { sendDefaultEvent } from './sendEvent'
@@ -46,12 +45,6 @@ function trackEvents() {
         el.addEventListener(event.trigger, () => {
           sendDefaultEvent('tag-based', event.event)
         })
-        logger.log(
-          'Added event listener\n',
-          `Event: ${event.event}\n`,
-          `Selector: ${event.selector}\n`,
-          `Trigger: ${event.trigger}`
-        )
       })
     }
   })
@@ -65,12 +58,6 @@ function removeEvents() {
       el.removeEventListener(event.trigger, () => {
         sendDefaultEvent('tag-based', event.event)
       })
-      logger.log(
-        'Removed event listener\n',
-        `Event: ${event.event}\n`,
-        `Selector: ${event.selector}\n`,
-        `Trigger: ${event.trigger}`
-      )
     })
   })
 }

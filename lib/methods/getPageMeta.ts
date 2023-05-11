@@ -2,7 +2,6 @@ import type { PageMeta } from '../types'
 
 function getPageMeta(): PageMeta {
   const pageUrl = new URL(window.location.href)
-
   return {
     referrer: document.referrer,
     utm_source: pageUrl.searchParams.get('utm_source'),

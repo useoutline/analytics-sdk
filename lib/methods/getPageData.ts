@@ -1,5 +1,6 @@
 import state from '../state'
 import type { PageData } from '../types'
+import { getPageMeta } from './getPageMeta'
 
 function getPageData() {
   const page: PageData = {
@@ -11,6 +12,7 @@ function getPageData() {
     page.fullpath = window.location.href
     page.title = document.title
   }
+  page.meta = getPageMeta()
   return page
 }
 

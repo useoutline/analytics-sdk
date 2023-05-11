@@ -1,7 +1,7 @@
-import { OUTLINE_TRACKING_UID } from './keys'
 import state from './state'
-import { getFromStorage, setToStorage } from './storage'
 import type { AnalyticsEvents, PageData, EventKind } from './types'
+
+const OUTLINE_VISITOR_UID = '@useoutline/analytics/uid'
 
 const api: {
   baseUrl: string
@@ -26,16 +26,15 @@ function getBraveHeader() {
   }
 }
 
-async function getTrackingUid() {
-  const outlineTrackingUid = await getFromStorage(OUTLINE_TRACKING_UID)
-  if (outlineTrackingUid) {
-    return outlineTrackingUid
-  } else {
+async function getVisitorUid() {
+  let outlineVisitorUid = localStorage.getItem(OUTLINE_VISITOR_UID)
+  if (!outlineVisitorUid) {
     const res = await fetch(`${api.baseUrl}/id`, { method: 'GET' })
     const data: { id: string } = await res.json()
-    await setToStorage(OUTLINE_TRACKING_UID, data.id)
-    return data.id
+    outlineVisitorUid = data.id
+    localStorage.setItem(OUTLINE_VISITOR_UID, outlineVisitorUid)
   }
+  return outlineVisitorUid
 }
 
 async function getTrackingEvents() {
@@ -45,7 +44,7 @@ async function getTrackingEvents() {
 }
 
 function trackEvent(eventType: EventKind, event: string, page?: PageData) {
-  const uid = state.getState().trackingUid
+  const uid = state.getState().visitorUid
   fetch(`${api.baseUrl}/event`, {
     method: 'POST',
     body: JSON.stringify({
@@ -63,7 +62,7 @@ function trackSession(
   startTimestamp: string,
   endTimestamp: string
 ) {
-  const uid = state.getState().trackingUid
+  const uid = state.getState().visitorUid
   fetch(`${api.baseUrl}/session`, {
     method: 'POST',
     body: JSON.stringify({
@@ -78,7 +77,7 @@ function trackSession(
 
 export {
   createApiInstance,
-  getTrackingUid,
+  getVisitorUid,
   getTrackingEvents,
   trackEvent,
   trackSession,
