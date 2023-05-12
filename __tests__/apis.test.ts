@@ -7,9 +7,7 @@ import {
 } from '../lib/apis'
 import state from '../lib/state'
 
-// eslint-disable-next-line
-fetch = jest.fn((url: string) => {
-  console.log(url)
+fetch = jest.fn((url) => {
   if (url.includes('/OA-test/id')) {
     return Promise.resolve({
       json: () => Promise.resolve({ id: 'OAU-test' }),
@@ -57,5 +55,9 @@ describe('APIs', () => {
     expect(fetch).toHaveLastReturnedWith(
       Promise.resolve({ json: () => Promise.resolve({ success: true }) })
     )
+  })
+
+  afterAll(() => {
+    jest.restoreAllMocks()
   })
 })

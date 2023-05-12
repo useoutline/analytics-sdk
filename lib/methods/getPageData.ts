@@ -5,12 +5,12 @@ import { getPageMeta } from './getPageMeta'
 function getPageData() {
   const page: PageData = {
     path: window.location.pathname,
+    title: document.title,
   }
   if (state.value.extendedPageData) {
     page.query = window.location.search
     page.hash = window.location.hash
     page.fullpath = window.location.href
-    page.title = document.title
   }
   page.meta = getPageMeta()
   return page
