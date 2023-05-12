@@ -1,7 +1,7 @@
 import state from './state'
 
 function log(...data: (string | number)[]) {
-  if (state.getState().debug) {
+  if (state.value.debug) {
     console.log('[Outline Logger]', ...data)
   }
 }

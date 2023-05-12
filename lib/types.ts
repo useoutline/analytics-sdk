@@ -1,7 +1,6 @@
 type TrackingState = 'preinit' | 'tracking' | 'stopped'
 
 type InitOptions = {
-  trackDynamicRoutes?: boolean
   extendPageData?: boolean
   serverUrl?: string
   apiVersion?: 'v1'

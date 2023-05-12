@@ -4,7 +4,7 @@ import state from '../state'
 import type { InitOptions } from '../types'
 import { startPageSession, endPageSession } from './pageSession'
 import { sendEvent, sendDefaultEvent } from './sendEvent'
-import { enableSpaTracking } from './spaTracking'
+import { enableSPATracking } from './spaTracking'
 import { removeEvents, trackEvents } from './trackEvents'
 import { getPageData } from './getPageData'
 
@@ -12,7 +12,7 @@ const OUTLINE_API_ENDPOINT = 'https://api.useoutline.xyz'
 
 async function init(analyticsId: string, options?: InitOptions) {
   state.setState({ analyticsId, debug: options?.debug ? true : false })
-  logger.log('Initialized with id ', analyticsId)
+  logger.log('Initialized with id ', `"${analyticsId}"`)
 
   const apiVersion = options?.apiVersion || 'v1'
   const serverUrl = options?.serverUrl || OUTLINE_API_ENDPOINT
@@ -35,10 +35,7 @@ async function init(analyticsId: string, options?: InitOptions) {
   })
 
   sendDefaultEvent('internal', 'pageview')
-
-  if (options?.trackDynamicRoutes) {
-    enableSpaTracking()
-  }
+  enableSPATracking()
 
   return {
     start: startTracking,

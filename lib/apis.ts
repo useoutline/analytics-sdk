@@ -11,7 +11,7 @@ const api: {
 
 function createApiInstance(baseURL: string, apiVersion: string) {
   api.baseUrl = new URL(
-    `${apiVersion}/${state.getState().analyticsId}`,
+    `${apiVersion}/${state.value.analyticsId}`,
     baseURL
   ).href
 }
@@ -44,7 +44,7 @@ async function getTrackingEvents() {
 }
 
 function trackEvent(eventType: EventKind, event: string, page?: PageData) {
-  const uid = state.getState().visitorUid
+  const uid = state.value.visitorUid
   fetch(`${api.baseUrl}/event`, {
     method: 'POST',
     body: JSON.stringify({
@@ -62,7 +62,7 @@ function trackSession(
   startTimestamp: string,
   endTimestamp: string
 ) {
-  const uid = state.getState().visitorUid
+  const uid = state.value.visitorUid
   fetch(`${api.baseUrl}/session`, {
     method: 'POST',
     body: JSON.stringify({

@@ -9,29 +9,23 @@ type StateKind = {
   debug: boolean
 }
 
-class State {
-  private state: StateKind
-
-  constructor() {
-    this.state = {
-      trackingState: 'preinit',
-      analyticsId: '',
-      visitorUid: '',
-      extendedPageData: false,
-      analyticsEvents: [],
-      debug: false,
-    }
-  }
-
-  setState(state: StateKind | Partial<StateKind>) {
-    this.state = { ...this.state, ...state }
-  }
-
-  getState() {
-    return this.state
-  }
+type ReactiveState = {
+  value: StateKind
+  setState: (updatedState: Partial<StateKind>) => void
 }
 
-const state = new State()
+const state: ReactiveState = {
+  value: {
+    trackingState: 'preinit',
+    analyticsId: '',
+    visitorUid: '',
+    extendedPageData: false,
+    analyticsEvents: [],
+    debug: false,
+  },
+  setState: (updatedState) => {
+    state.value = { ...state.value, ...updatedState }
+  },
+}
 
 export default state

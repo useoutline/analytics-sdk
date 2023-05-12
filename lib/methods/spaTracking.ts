@@ -6,7 +6,7 @@ import { sendDefaultEvent } from './sendEvent'
 
 let pageBeforePopstate: PageData
 
-function enableSpaTracking() {
+function enableSPATracking() {
   const pushState = history.pushState
 
   history.pushState = function (...args) {
@@ -37,4 +37,4 @@ function trackPageAfterChange() {
   }, 100)
 }
 
-export { enableSpaTracking }
+export { enableSPATracking }
