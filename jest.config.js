@@ -5,7 +5,7 @@ const config = {
   collectCoverage: true,
   preset: 'ts-jest',
   transform: {
-    '^.+\\.[t|j]s$': 'babel-jest',
+    '^.+\\.ts$': 'babel-jest',
   },
 }
 
