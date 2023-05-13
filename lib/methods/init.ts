@@ -11,7 +11,11 @@ import { getPageData } from './getPageData'
 const OUTLINE_API_ENDPOINT = 'https://api.useoutline.xyz'
 
 async function init(analyticsId: string, options?: InitOptions) {
-  state.setState({ analyticsId, debug: options?.debug ? true : false })
+  state.setState({
+    analyticsId,
+    debug: !!options?.debug,
+    mock: !!options?.mock,
+  })
   logger.log('Initialized with id ', `"${analyticsId}"`)
 
   const apiVersion = options?.apiVersion || 'v1'

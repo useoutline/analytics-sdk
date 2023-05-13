@@ -5,6 +5,7 @@ type InitOptions = {
   serverUrl?: string
   apiVersion?: 'v1'
   debug?: boolean
+  mock?: boolean
 }
 
 type PageData = {

@@ -7,6 +7,7 @@ type StateKind = {
   extendedPageData: boolean
   analyticsEvents: AnalyticsEvents
   debug: boolean
+  mock: boolean
 }
 
 type ReactiveState = {
@@ -22,6 +23,7 @@ const state: ReactiveState = {
     extendedPageData: false,
     analyticsEvents: [],
     debug: false,
+    mock: false,
   },
   setState: (updatedState) => {
     state.value = { ...state.value, ...updatedState }

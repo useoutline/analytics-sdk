@@ -7,14 +7,18 @@ import { getPageData } from './getPageData'
 function sendEvent(event: string) {
   if (state.value.trackingState !== 'tracking') return
   const page = getPageData()
-  trackEvent('external', event, page)
+  if (!state.value.mock) {
+    trackEvent('external', event, page)
+  }
   logger.log(`Custom event`, `"${event}"`)
 }
 
 function sendDefaultEvent(type: EventKind, event: string) {
   if (state.value.trackingState !== 'tracking') return
   const page = getPageData()
-  trackEvent(type, event, page)
+  if (!state.value.mock) {
+    trackEvent(type, event, page)
+  }
   logger.log(
     `${type === 'internal' ? 'Internal' : 'Tag-based'} event`,
     `"${event}"`
