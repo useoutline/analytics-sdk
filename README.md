@@ -1,6 +1,6 @@
 # Outline Analytics SDK
 
-![Outline Analytics SDK CI](https://github.com/useoutline/analytics-sdk/actions/workflows/node-ci.yml/badge.svg) [![Coverage Status](https://coveralls.io/repos/github/useoutline/analytics-sdk/badge.svg)](https://coveralls.io/github/useoutline/analytics-sdk) ![Bundle Size](https://img.shields.io/bundlephobia/min/@useoutline/analytics)
+![Outline Analytics SDK CI](https://github.com/useoutline/analytics-sdk/actions/workflows/node-ci.yml/badge.svg) ![Bundle Size](https://img.shields.io/bundlephobia/min/@useoutline/analytics) [![TypeScript](https://img.shields.io/badge/%3C%2F%3E-TypeScript-%230074c1.svg)](http://www.typescriptlang.org/) [![Coverage Status](https://coveralls.io/repos/github/useoutline/analytics-sdk/badge.svg)](https://coveralls.io/github/useoutline/analytics-sdk)
 
 ## Installation
 
@@ -44,7 +44,7 @@ await useOutlineAnalytics('OA-xxxxx');
 
 ### Using the CDN
 
-If you are using the CDN script directly:
+If you prefer using the CDN:
 
 ```javascript
 await window.useOutlineAnalytics('OA-xxxxx');
@@ -103,5 +103,10 @@ The `sendEvent` method allows you to send custom events from your code. It accep
 const analytics = await useOutlineAnalytics('OA-xxxxx');
 analytics.sendEvent('eventName');
 ```
+
+### Typescript Support
+
+The SDK is built with TypeScript, so you can enjoy all the benefits of TypeScript type checking and auto-completion when using the Outline Analytics SDK in your projects.
+
 
 That's it! You are now ready to integrate Outline Analytics into your application and start tracking user interactions.
