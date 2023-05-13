@@ -1,5 +1,7 @@
 # Outline Analytics SDK
 
+![Outline Analytics SDK CI](https://github.com/useoutline/analytics-sdk/actions/workflows/node-ci.yml/badge.svg) [![Coverage Status](https://coveralls.io/repos/github/useoutline/analytics-sdk/badge.svg)](https://coveralls.io/github/useoutline/analytics-sdk) ![Bundle Size](https://img.shields.io/bundlephobia/min/@useoutline/analytics)
+
 ## Installation
 
 Install the Outline Analytics SDK using npm:
