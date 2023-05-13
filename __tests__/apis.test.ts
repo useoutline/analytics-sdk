@@ -23,6 +23,9 @@ fetch = jest.fn((url) => {
   })
 })
 
+localStorage.setItem = jest.fn()
+localStorage.getItem = jest.fn(() => null)
+
 describe('APIs', () => {
   state.setState({ analyticsId: 'OA-test' })
   createApiInstance('http://localhost', 'v1')
@@ -45,6 +48,9 @@ describe('APIs', () => {
   })
 
   test('Track Session', async () => {
+    ;(window.navigator as any).brave = {
+      isBrave: true,
+    }
     const startTimestamp = Date.now()
     const endTimestamp = Date.now()
     await trackSession(
