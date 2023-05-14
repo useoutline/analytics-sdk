@@ -1,5 +1,9 @@
 # Outline Analytics SDK
 
+The Outline Analytics SDK is a powerful and lightweight JavaScript library that allows you to easily integrate analytics tracking into your web applications. With just a few lines of code, you can start capturing user events, page views, and sessions, and gain valuable insights into how users interact with your application.
+
+The SDK is designed to be simple and developer-friendly. It offers a cookie-free approach using local storage and provides a straightforward API for initializing the analytics, starting and stopping tracking, and sending custom events. By default, it tracks page views and sessions, and you can easily configure additional events to be tracked via the dashboard, eliminating the need for manual updates in your codebase.
+
 ![Outline Analytics SDK CI](https://github.com/useoutline/analytics-sdk/actions/workflows/node-ci.yml/badge.svg) ![Bundle Size](https://img.shields.io/bundlephobia/min/@useoutline/analytics) [![TypeScript](https://img.shields.io/badge/%3C%2F%3E-TypeScript-%230074c1.svg)](http://www.typescriptlang.org/) [![Coverage Status](https://coveralls.io/repos/github/useoutline/analytics-sdk/badge.svg)](https://coveralls.io/github/useoutline/analytics-sdk)
 
 ## Installation

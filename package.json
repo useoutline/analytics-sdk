@@ -33,9 +33,16 @@
     "prepare": "husky install",
     "prepublishOnly": "yarn run build"
   },
-  "keywords": [],
+  "keywords": [
+    "web analytics",
+    "analytics sdk",
+    "privacy preserving analytics",
+    "cookieless analytics",
+    "outline",
+    "useoutline"
+  ],
   "author": "Shrinath Prabhu <https://github.com/shrinathprabhu>",
-  "license": "ISC",
+  "license": "MIT",
   "devDependencies": {
     "@babel/core": "^7.21.4",
     "@babel/preset-env": "^7.21.4",
