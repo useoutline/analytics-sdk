@@ -37,9 +37,9 @@ The bundled file size is less than 5kB (4.8kB).
 If you are using a modern JavaScript framework with ES Modules support:
 
 ```javascript
-import useOutlineAnalytics from '@useoutline/analytics';
+import useOutlineAnalytics from '@useoutline/analytics'
 
-await useOutlineAnalytics('OA-xxxxx');
+await useOutlineAnalytics('OA-xxxxx')
 ```
 
 ### Using the CDN
@@ -47,7 +47,7 @@ await useOutlineAnalytics('OA-xxxxx');
 If you prefer using the CDN:
 
 ```javascript
-await window.useOutlineAnalytics('OA-xxxxx');
+await window.useOutlineAnalytics('OA-xxxxx')
 ```
 
 ### Options
@@ -60,10 +60,10 @@ const options = {
   serverUrl: 'https://api.useoutline.xyz',
   apiVersion: 'v1',
   debug: false,
-  mock: false
-};
+  mock: false,
+}
 
-await useOutlineAnalytics('OA-xxxxx', options);
+await useOutlineAnalytics('OA-xxxxx', options)
 ```
 
 #### Option Properties
@@ -82,8 +82,8 @@ The `useOutlineAnalytics` function returns an analytics object with three method
 The `start` method sets the analytics state to "tracking" and starts tracking events. This method is called by default when you initialize the SDK. If you have stopped tracking for any reason, you can use this method to resume tracking.
 
 ```javascript
-const analytics = await useOutlineAnalytics('OA-xxxxx');
-analytics.start();
+const analytics = await useOutlineAnalytics('OA-xxxxx')
+analytics.start()
 ```
 
 #### `stop()`
@@ -91,8 +91,8 @@ analytics.start();
 The `stop` method sets the analytics state to "stopped" and stops all tracking events. You can use this method to programmatically stop tracking events and sessions.
 
 ```javascript
-const analytics = await useOutlineAnalytics('OA-xxxxx');
-analytics.stop();
+const analytics = await useOutlineAnalytics('OA-xxxxx')
+analytics.stop()
 ```
 
 #### `sendEvent(event)`
@@ -100,13 +100,12 @@ analytics.stop();
 The `sendEvent` method allows you to send custom events from your code. It accepts a single parameter `event` of type string and sends the custom event to the server. You can view the statistics of these events in the dashboard (console.useoutline.xyz).
 
 ```javascript
-const analytics = await useOutlineAnalytics('OA-xxxxx');
-analytics.sendEvent('eventName');
+const analytics = await useOutlineAnalytics('OA-xxxxx')
+analytics.sendEvent('eventName')
 ```
 
 ### Typescript Support
 
 The SDK is built with TypeScript, so you can enjoy all the benefits of TypeScript type checking and auto-completion when using the Outline Analytics SDK in your projects.
-
 
 That's it! You are now ready to integrate Outline Analytics into your application and start tracking user interactions.

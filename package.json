@@ -29,7 +29,7 @@
     "build:umd": "rollup --config rollup.umd.config.js",
     "build:ts": "tsc --project tsconfig.json --emitDeclarationOnly",
     "format": "prettier --ignore-path .gitignore --write .",
-    "lint": "eslint --ext .ts src",
+    "lint": "eslint --ext .ts lib",
     "prepare": "husky install",
     "prepublishOnly": "yarn run build"
   },
