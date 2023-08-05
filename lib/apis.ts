@@ -57,10 +57,12 @@ function trackEvent(
   data?: Record<string, string | number>
 ) {
   const uid = state.value.visitorUid
+  const sessionId = state.value.sessionId
   fetch(`${api.baseUrl}/event`, {
     method: 'POST',
     body: JSON.stringify({
       uid,
+      sessionId,
       event,
       type: eventType,
       page,
@@ -71,12 +73,12 @@ function trackEvent(
 }
 
 function trackSession(
-  sessionId: string,
   page: PageData,
   startTimestamp: string,
   endTimestamp: string
 ) {
   const uid = state.value.visitorUid
+  const sessionId = state.value.sessionId
   fetch(`${api.baseUrl}/session`, {
     method: 'POST',
     body: JSON.stringify({

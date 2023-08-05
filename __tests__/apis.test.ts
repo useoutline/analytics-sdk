@@ -55,7 +55,6 @@ describe('APIs', () => {
     const startTimestamp = Date.now()
     const endTimestamp = Date.now()
     await trackSession(
-      'OA-weiroiweuroiweur',
       { path: '/test' },
       startTimestamp.toString(),
       endTimestamp.toString()

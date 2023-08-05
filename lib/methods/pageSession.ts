@@ -16,12 +16,7 @@ function endPageSession(page?: PageData) {
   const pageLeftTime = new Date().toISOString()
   const trackingPage = page || getPageData()
   if (!state.value.mock) {
-    trackSession(
-      state.value.sessionId,
-      trackingPage,
-      pageVisitedTime,
-      pageLeftTime
-    )
+    trackSession(trackingPage, pageVisitedTime, pageLeftTime)
   }
   logger.log('Page session ended', `"${trackingPage.path}"`)
 }
