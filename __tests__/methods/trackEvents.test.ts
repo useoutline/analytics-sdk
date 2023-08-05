@@ -1,7 +1,7 @@
 import { trackEvents, removeEvents } from '../../lib/methods/trackEvents'
 import state from '../../lib/state'
 
-jest.mock('../../lib/apis', () => {
+jest.mock('@/apis', () => {
   return {
     trackEvent: jest.fn(() => Promise.resolve({ success: true })),
     trackSession: jest.fn(() => Promise.resolve({ success: true })),

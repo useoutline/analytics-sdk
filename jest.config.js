@@ -1,3 +1,8 @@
+import { pathsToModuleNameMapper } from 'ts-jest'
+import { readFileSync } from 'fs'
+
+const tsConfig = JSON.parse(readFileSync('./tsconfig.json'))
+
 const config = {
   verbose: true,
   testEnvironment: 'jsdom',
@@ -7,7 +12,9 @@ const config = {
   transform: {
     '^.+\\.ts$': 'babel-jest',
   },
+  moduleNameMapper: pathsToModuleNameMapper(tsConfig.compilerOptions.paths, {
+    prefix: '<rootDir>/',
+  }),
 }
 
-// eslint-disable-next-line no-undef
 export default config

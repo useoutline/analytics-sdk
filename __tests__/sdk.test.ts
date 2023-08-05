@@ -1,7 +1,7 @@
 import useOutlineAnalytics from '../lib/index'
 import state from '../lib/state'
 
-jest.mock('../lib/apis', () => {
+jest.mock('@/apis', () => {
   return {
     createApiInstance: jest.fn(),
     getVisitorUid: jest.fn(() => Promise.resolve('OAU-test')),
@@ -11,8 +11,12 @@ jest.mock('../lib/apis', () => {
   }
 })
 
+crypto.randomUUID = jest.fn(() => 'abc-abc-abc-abc-abc')
+
 localStorage.setItem = jest.fn()
 localStorage.getItem = jest.fn(() => null)
+sessionStorage.setItem = jest.fn()
+sessionStorage.getItem = jest.fn(() => null)
 
 describe('Initialize SDK and use functions', () => {
   test('Initialize SDK success', async () => {

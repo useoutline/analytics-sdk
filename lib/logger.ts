@@ -1,4 +1,4 @@
-import state from './state'
+import state from '@/state'
 
 function log(...data: (string | number)[]) {
   if (state.value.debug) {

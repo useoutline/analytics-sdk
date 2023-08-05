@@ -1,20 +1,19 @@
-import { getVisitorUid, createApiInstance, getTrackingEvents } from '../apis'
-import logger from '../logger'
-import state from '../state'
-import type { InitOptions } from '../types'
-import { startPageSession, endPageSession } from './pageSession'
-import { sendEvent, sendDefaultEvent } from './sendEvent'
-import { enableSPATracking } from './spaTracking'
-import { removeEvents, trackEvents } from './trackEvents'
-import { getPageData } from './getPageData'
-
-const OUTLINE_API_ENDPOINT = 'https://api.useoutline.xyz'
+import { getVisitorUid, createApiInstance, getTrackingEvents } from '@/apis'
+import logger from '@/logger'
+import state from '@/state'
+import type { InitOptions } from '@/types'
+import { startPageSession, endPageSession } from '@/methods/pageSession'
+import { sendEvent, sendDefaultEvent } from '@/methods/sendEvent'
+import { enableSPATracking } from '@/methods/spaTracking'
+import { removeEvents, trackEvents } from '@/methods/trackEvents'
+import { getPageData } from '@/methods/getPageData'
+import { PAGE_SESSION_KEY, OUTLINE_API_ENDPOINT } from '@/constants'
 
 async function init(analyticsId: string, options?: InitOptions) {
   state.setState({
     analyticsId,
-    debug: !!options?.debug,
-    mock: !!options?.mock,
+    debug: options?.debug,
+    mock: options?.mock,
   })
   logger.log('Initialized with id ', `"${analyticsId}"`)
 
@@ -23,6 +22,12 @@ async function init(analyticsId: string, options?: InitOptions) {
   createApiInstance(serverUrl, apiVersion)
 
   const visitorUid = await getVisitorUid()
+  if (!sessionStorage.getItem(PAGE_SESSION_KEY)) {
+    sessionStorage.setItem(PAGE_SESSION_KEY, `OA-${window.crypto.randomUUID()}`)
+  }
+  state.setState({
+    sessionId: sessionStorage.getItem(PAGE_SESSION_KEY) as string,
+  })
   const events = await getTrackingEvents()
   state.setState({
     visitorUid,

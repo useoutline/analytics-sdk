@@ -1,7 +1,14 @@
-import state from './state'
-import type { AnalyticsEvents, PageData, EventKind } from './types'
+import state from '@/state'
+import type { AnalyticsEvents, PageData, EventKind } from '@/types'
+import { OUTLINE_VISITOR_UID_KEY } from '@/constants'
 
-const OUTLINE_VISITOR_UID = '@useoutline/analytics/uid'
+declare global {
+  interface Navigator {
+    brave?: {
+      isBrave: Promise<() => boolean>
+    }
+  }
+}
 
 const api: {
   baseUrl: string
@@ -17,7 +24,7 @@ function createApiInstance(baseURL: string, apiVersion: string) {
 }
 
 function getBraveHeader() {
-  if ((window.navigator as any).brave) {
+  if (window.navigator.brave) {
     return new Headers({
       'X-Browser-Brave': '1',
     })
@@ -27,12 +34,12 @@ function getBraveHeader() {
 }
 
 async function getVisitorUid() {
-  let outlineVisitorUid = localStorage.getItem(OUTLINE_VISITOR_UID)
+  let outlineVisitorUid = localStorage.getItem(OUTLINE_VISITOR_UID_KEY)
   if (!outlineVisitorUid) {
     const res = await fetch(`${api.baseUrl}/id`, { method: 'GET' })
     const data: { id: string } = await res.json()
     outlineVisitorUid = data.id
-    localStorage.setItem(OUTLINE_VISITOR_UID, outlineVisitorUid)
+    localStorage.setItem(OUTLINE_VISITOR_UID_KEY, outlineVisitorUid)
   }
   return outlineVisitorUid
 }
@@ -43,7 +50,12 @@ async function getTrackingEvents() {
   return data.events
 }
 
-function trackEvent(eventType: EventKind, event: string, page?: PageData) {
+function trackEvent(
+  eventType: EventKind,
+  event: string,
+  page?: PageData,
+  data?: Record<string, string | number>
+) {
   const uid = state.value.visitorUid
   fetch(`${api.baseUrl}/event`, {
     method: 'POST',
@@ -52,12 +64,14 @@ function trackEvent(eventType: EventKind, event: string, page?: PageData) {
       event,
       type: eventType,
       page,
+      data,
     }),
     headers: getBraveHeader(),
   })
 }
 
 function trackSession(
+  sessionId: string,
   page: PageData,
   startTimestamp: string,
   endTimestamp: string
@@ -67,6 +81,7 @@ function trackSession(
     method: 'POST',
     body: JSON.stringify({
       uid,
+      sessionId,
       page,
       visitedAt: startTimestamp,
       leftAt: endTimestamp,

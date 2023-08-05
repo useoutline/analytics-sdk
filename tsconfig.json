@@ -12,7 +12,10 @@
     "strictPropertyInitialization": false,
     "esModuleInterop": true,
     "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true
+    "forceConsistentCasingInFileNames": true,
+    "paths": {
+      "@/*": ["./lib/*"]
+    }
   },
-  "include": ["lib/*.ts", "lib/**/*.ts"]
+  "include": ["lib/*.ts", "lib/**/*.ts", "*.json"]
 }

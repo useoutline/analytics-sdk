@@ -1,8 +1,8 @@
-import { trackSession } from '../apis'
-import logger from '../logger'
-import state from '../state'
-import type { PageData } from '../types'
-import { getPageData } from './getPageData'
+import { trackSession } from '@/apis'
+import logger from '@/logger'
+import state from '@/state'
+import type { PageData } from '@/types'
+import { getPageData } from '@/methods/getPageData'
 
 let pageVisitedTime: string
 
@@ -16,7 +16,12 @@ function endPageSession(page?: PageData) {
   const pageLeftTime = new Date().toISOString()
   const trackingPage = page || getPageData()
   if (!state.value.mock) {
-    trackSession(trackingPage, pageVisitedTime, pageLeftTime)
+    trackSession(
+      state.value.sessionId,
+      trackingPage,
+      pageVisitedTime,
+      pageLeftTime
+    )
   }
   logger.log('Page session ended', `"${trackingPage.path}"`)
 }

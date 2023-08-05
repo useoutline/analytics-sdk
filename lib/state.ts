@@ -1,4 +1,4 @@
-import type { AnalyticsEvents, TrackingState } from './types'
+import type { AnalyticsEvents, TrackingState } from '@/types'
 
 type StateKind = {
   trackingState: TrackingState
@@ -8,6 +8,7 @@ type StateKind = {
   analyticsEvents: AnalyticsEvents
   debug: boolean
   mock: boolean
+  sessionId: string
 }
 
 type ReactiveState = {
@@ -24,6 +25,7 @@ const state: ReactiveState = {
     analyticsEvents: [],
     debug: false,
     mock: false,
+    sessionId: '',
   },
   setState: (updatedState) => {
     state.value = { ...state.value, ...updatedState }

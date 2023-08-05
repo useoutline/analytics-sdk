@@ -1,6 +1,6 @@
-import state from '../state'
-import type { PageData } from '../types'
-import { getPageMeta } from './getPageMeta'
+import state from '@/state'
+import type { PageData } from '@/types'
+import { getPageMeta } from '@/methods/getPageMeta'
 
 function getPageData() {
   const page: PageData = {

@@ -1,4 +1,4 @@
-import type { PageMeta } from '../types'
+import type { PageMeta } from '@/types'
 
 function getPageMeta(): PageMeta {
   const pageUrl = new URL(window.location.href)

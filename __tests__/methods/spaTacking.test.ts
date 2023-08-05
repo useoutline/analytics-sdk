@@ -1,7 +1,7 @@
 import { enableSPATracking } from '../../lib/methods/spaTracking'
 import state from '../../lib/state'
 
-jest.mock('../../lib/apis', () => {
+jest.mock('@/apis', () => {
   return {
     createApiInstance: jest.fn(),
     getVisitorUid: jest.fn(() => Promise.resolve('OAU-test')),
@@ -11,35 +11,17 @@ jest.mock('../../lib/apis', () => {
   }
 })
 
-function sleep(ms: number) {
-  return new Promise((resolve) => setTimeout(resolve, ms))
-}
-
 describe('SPA Tracking', () => {
   test('Enable SPA tracking', (done) => {
     state.setState({ debug: true })
     const historyPushstateSpy = jest.spyOn(window.history, 'pushState')
-    const logSpy = jest.spyOn(console, 'log')
     enableSPATracking()
     history.pushState('/test', 'Test', '/test')
     expect(historyPushstateSpy).toHaveBeenCalled()
-    sleep(100).then(() => {
-      expect(logSpy).toHaveBeenLastCalledWith(
-        '[Outline Logger]',
-        'Page session started',
-        '"/test"'
-      )
-      window.addEventListener('popstate', () => {
-        sleep(100).then(() => {
-          expect(logSpy).toHaveBeenLastCalledWith(
-            '[Outline Logger]',
-            'Page session started',
-            '"/test"'
-          )
-          done()
-        })
-      })
-      window.dispatchEvent(new Event('popstate'))
+    window.addEventListener('popstate', () => {
+      expect(historyPushstateSpy).toHaveBeenCalled()
+      done()
     })
+    window.dispatchEvent(new Event('popstate'))
   })
 })

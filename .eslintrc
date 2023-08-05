@@ -14,5 +14,7 @@
     "sourceType": "module"
   },
   "plugins": ["@typescript-eslint", "eslint-plugin-tsdoc"],
-  "rules": {}
+  "rules": {
+    "@typescript-eslint/ban-ts-comment": "off"
+  }
 }

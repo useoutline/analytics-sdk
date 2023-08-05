@@ -7,7 +7,8 @@ import {
 } from '../lib/apis'
 import state from '../lib/state'
 
-fetch = jest.fn((url) => {
+// @ts-ignore
+global.fetch = jest.fn((url: string) => {
   if (url.includes('/OA-test/id')) {
     return Promise.resolve({
       json: () => Promise.resolve({ id: 'OAU-test' }),
@@ -48,12 +49,13 @@ describe('APIs', () => {
   })
 
   test('Track Session', async () => {
-    ;(window.navigator as any).brave = {
-      isBrave: true,
+    ;(window.navigator as Navigator).brave = {
+      isBrave: Promise.resolve(() => true),
     }
     const startTimestamp = Date.now()
     const endTimestamp = Date.now()
     await trackSession(
+      'OA-weiroiweuroiweur',
       { path: '/test' },
       startTimestamp.toString(),
       endTimestamp.toString()

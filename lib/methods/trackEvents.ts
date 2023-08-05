@@ -1,6 +1,6 @@
-import state from '../state'
-import { Selector } from '../types'
-import { sendDefaultEvent } from './sendEvent'
+import state from '@/state'
+import { Selector } from '@/types'
+import { sendDefaultEvent } from '@/methods/sendEvent'
 
 function isCorrectPage(pagePath: string) {
   return !pagePath || pagePath === window.location.pathname || pagePath === '*'

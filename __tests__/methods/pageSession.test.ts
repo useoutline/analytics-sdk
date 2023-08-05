@@ -1,7 +1,7 @@
 import { startPageSession, endPageSession } from '../../lib/methods/pageSession'
 import state from '../../lib/state'
 
-jest.mock('../../lib/apis', () => {
+jest.mock('@/apis', () => {
   return {
     trackSession: jest.fn(() => Promise.resolve({ success: true })),
   }

@@ -1,8 +1,8 @@
-import { PageData } from '../types'
-import { getPageData } from './getPageData'
-import { endPageSession, startPageSession } from './pageSession'
-import { removeEvents, trackEvents } from './trackEvents'
-import { sendDefaultEvent } from './sendEvent'
+import { PageData } from '@/types'
+import { getPageData } from '@/methods/getPageData'
+import { endPageSession, startPageSession } from '@/methods/pageSession'
+import { removeEvents, trackEvents } from '@/methods/trackEvents'
+import { sendDefaultEvent } from '@/methods/sendEvent'
 
 let pageBeforePopstate: PageData
 
@@ -34,7 +34,7 @@ function trackPageAfterChange() {
   setTimeout(() => {
     sendDefaultEvent('internal', 'pageview')
     startPageSession()
-  }, 100)
+  }, 1000)
 }
 
 export { enableSPATracking }
