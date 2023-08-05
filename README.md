@@ -99,13 +99,15 @@ const analytics = await useOutlineAnalytics('OA-xxxxx')
 analytics.stop()
 ```
 
-#### `sendEvent(event)`
+#### `sendEvent(event: string, data?: Record<string, string | number>)`
 
-The `sendEvent` method allows you to send custom events from your code. It accepts a single parameter `event` of type string and sends the custom event to the server. You can view the statistics of these events in the dashboard (console.useoutline.xyz).
+The `sendEvent` method allows you to send custom events from your code. It accepts a single parameter `event` of type string and sends the custom event to the server. Optionally it also accepts `data` which is a key value type record where key is string and value can either be string or number. You can view the statistics of these events in the dashboard (console.useoutline.xyz).
 
 ```javascript
 const analytics = await useOutlineAnalytics('OA-xxxxx')
 analytics.sendEvent('eventName')
+analytics.sendEvent('eventName', { key: 'value' })
+analytics.sendEvent('eventName', { key: 123 })
 ```
 
 ### Typescript Support
