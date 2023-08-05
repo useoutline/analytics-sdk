@@ -1,6 +1,6 @@
 {
   "name": "@useoutline/analytics",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "",
   "main": "dist/useoutline-analytics.esm.js",
   "type": "module",
