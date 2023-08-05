@@ -19,7 +19,7 @@ jobs:
           always-auth: true
       - run: yarn
       - run: yarn test
-      - run: yarn publish
+      - run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
