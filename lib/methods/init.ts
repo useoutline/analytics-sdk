@@ -23,7 +23,10 @@ async function init(analyticsId: string, options?: InitOptions) {
 
   const visitorUid = await getVisitorUid()
   if (!sessionStorage.getItem(PAGE_SESSION_KEY)) {
-    sessionStorage.setItem(PAGE_SESSION_KEY, `OA-${window.crypto.randomUUID()}`)
+    sessionStorage.setItem(
+      PAGE_SESSION_KEY,
+      `OAS-${window.crypto.randomUUID()}`
+    )
   }
   state.setState({
     sessionId: sessionStorage.getItem(PAGE_SESSION_KEY) as string,
