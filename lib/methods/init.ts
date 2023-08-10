@@ -1,4 +1,4 @@
-import { getVisitorUid, createApiInstance, getTrackingEvents } from '@/apis'
+import { createApiInstance, getTrackingEvents } from '@/apis'
 import logger from '@/logger'
 import state from '@/state'
 import type { InitOptions } from '@/types'
@@ -7,7 +7,12 @@ import { sendEvent, sendDefaultEvent } from '@/methods/sendEvent'
 import { enableSPATracking } from '@/methods/spaTracking'
 import { removeEvents, trackEvents } from '@/methods/trackEvents'
 import { getPageData } from '@/methods/getPageData'
-import { PAGE_SESSION_KEY, OUTLINE_API_ENDPOINT } from '@/constants'
+import {
+  PAGE_SESSION_KEY,
+  OUTLINE_API_ENDPOINT,
+  OUTLINE_VISITOR_UID_KEY,
+} from '@/constants'
+import { getRandomValue } from '@/methods/randomValues'
 
 async function init(analyticsId: string, options?: InitOptions) {
   state.setState({
@@ -21,19 +26,19 @@ async function init(analyticsId: string, options?: InitOptions) {
   const serverUrl = options?.serverUrl || OUTLINE_API_ENDPOINT
   createApiInstance(serverUrl, apiVersion)
 
-  const visitorUid = await getVisitorUid()
-  if (!sessionStorage.getItem(PAGE_SESSION_KEY)) {
-    sessionStorage.setItem(
-      PAGE_SESSION_KEY,
-      `OAS-${window.crypto.randomUUID()}`
-    )
-  }
-  state.setState({
-    sessionId: sessionStorage.getItem(PAGE_SESSION_KEY) as string,
-  })
+  const persistedVisitorUid = localStorage.getItem(OUTLINE_VISITOR_UID_KEY)
+  const visitorUid = persistedVisitorUid || `OAU-${getRandomValue()}`
+  if (!persistedVisitorUid)
+    localStorage.setItem(OUTLINE_VISITOR_UID_KEY, visitorUid)
+
+  const persistedSessionId = sessionStorage.getItem(PAGE_SESSION_KEY)
+  const pageSessionId = persistedSessionId || `OAS-${getRandomValue()}`
+  if (!persistedSessionId)
+    sessionStorage.setItem(PAGE_SESSION_KEY, pageSessionId)
   const events = await getTrackingEvents()
   state.setState({
     visitorUid,
+    sessionId: pageSessionId,
     analyticsEvents: events,
     extendedPageData: options?.extendPageData ? true : false,
   })

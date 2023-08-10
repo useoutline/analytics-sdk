@@ -1,6 +1,5 @@
 import state from '@/state'
 import type { AnalyticsEvents, PageData, EventKind } from '@/types'
-import { OUTLINE_VISITOR_UID_KEY } from '@/constants'
 
 declare global {
   interface Navigator {
@@ -31,17 +30,6 @@ function getBraveHeader() {
   } else {
     return new Headers({})
   }
-}
-
-async function getVisitorUid() {
-  let outlineVisitorUid = localStorage.getItem(OUTLINE_VISITOR_UID_KEY)
-  if (!outlineVisitorUid) {
-    const res = await fetch(`${api.baseUrl}/id`, { method: 'GET' })
-    const data: { id: string } = await res.json()
-    outlineVisitorUid = data.id
-    localStorage.setItem(OUTLINE_VISITOR_UID_KEY, outlineVisitorUid)
-  }
-  return outlineVisitorUid
 }
 
 async function getTrackingEvents() {
@@ -94,10 +82,4 @@ function trackSession(
   })
 }
 
-export {
-  createApiInstance,
-  getVisitorUid,
-  getTrackingEvents,
-  trackEvent,
-  trackSession,
-}
+export { createApiInstance, getTrackingEvents, trackEvent, trackSession }

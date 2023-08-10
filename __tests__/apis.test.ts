@@ -1,7 +1,6 @@
 import {
   createApiInstance,
   getTrackingEvents,
-  getVisitorUid,
   trackEvent,
   trackSession,
 } from '../lib/apis'
@@ -9,11 +8,6 @@ import state from '../lib/state'
 
 // @ts-ignore
 global.fetch = jest.fn((url: string) => {
-  if (url.includes('/OA-test/id')) {
-    return Promise.resolve({
-      json: () => Promise.resolve({ id: 'OAU-test' }),
-    })
-  }
   if (url.includes('/OA-test/events')) {
     return Promise.resolve({
       json: () => Promise.resolve({ events: [] }),
@@ -30,11 +24,6 @@ localStorage.getItem = jest.fn(() => null)
 describe('APIs', () => {
   state.setState({ analyticsId: 'OA-test' })
   createApiInstance('http://localhost', 'v1')
-
-  test('Get VisitorUid', async () => {
-    const uid = await getVisitorUid()
-    expect(uid).toEqual('OAU-test')
-  })
 
   test('Get Tracking Events', async () => {
     const events = await getTrackingEvents()
