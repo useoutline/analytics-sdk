@@ -67,6 +67,7 @@ function trackEvent(
       type: eventType,
       page,
       data,
+      capturedAt: Date.now(),
     }),
     headers: getBraveHeader(),
   })
@@ -74,8 +75,8 @@ function trackEvent(
 
 function trackSession(
   page: PageData,
-  startTimestamp: string,
-  endTimestamp: string
+  startTimestamp: number,
+  endTimestamp: number
 ) {
   const uid = state.value.visitorUid
   const sessionId = state.value.sessionId
@@ -87,6 +88,7 @@ function trackSession(
       page,
       visitedAt: startTimestamp,
       leftAt: endTimestamp,
+      capturedAt: Date.now(),
     }),
     headers: getBraveHeader(),
   })

@@ -54,11 +54,7 @@ describe('APIs', () => {
     }
     const startTimestamp = Date.now()
     const endTimestamp = Date.now()
-    await trackSession(
-      { path: '/test' },
-      startTimestamp.toString(),
-      endTimestamp.toString()
-    )
+    await trackSession({ path: '/test' }, startTimestamp, endTimestamp)
     expect(fetch).toHaveLastReturnedWith(
       Promise.resolve({ json: () => Promise.resolve({ success: true }) })
     )
