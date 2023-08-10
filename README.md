@@ -32,7 +32,7 @@ or
 <script src="https://unpkg.com/@useoutline/analytics"></script>
 ```
 
-The bundled file size is less than 5kB (4.8kB).
+The bundled file size is less than 5kB.
 
 ## Usage
 
