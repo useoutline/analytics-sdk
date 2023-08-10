@@ -22,14 +22,14 @@ function createApiInstance(baseURL: string, apiVersion: string) {
   ).href
 }
 
-function getBraveHeader() {
+function getHeaders() {
+  const headers = new Headers({
+    'Content-Type': 'application/json',
+  })
   if (window.navigator.brave) {
-    return new Headers({
-      'X-Browser-Brave': '1',
-    })
-  } else {
-    return new Headers({})
+    headers.append('X-Browser-Brave', '1')
   }
+  return headers
 }
 
 async function getTrackingEvents() {
@@ -57,7 +57,7 @@ function trackEvent(
       data,
       capturedAt: Date.now(),
     }),
-    headers: getBraveHeader(),
+    headers: getHeaders(),
   })
 }
 
@@ -78,7 +78,7 @@ function trackSession(
       leftAt: endTimestamp,
       capturedAt: Date.now(),
     }),
-    headers: getBraveHeader(),
+    headers: getHeaders(),
   })
 }
 
