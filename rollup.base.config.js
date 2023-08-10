@@ -7,14 +7,14 @@ import alias from '@rollup/plugin-alias'
 const baseConfig = {
   input: './lib/index.ts',
   plugins: [
+    alias({
+      '@': './lib',
+    }),
     typescript({ module: 'esnext' }),
     commonjs({
       requireReturnsDefault: 'auto',
     }),
     terser({ ecma: '2015', format: { comments: false } }),
-    alias({
-      '@': './lib',
-    }),
   ],
   onwarn: (warning, rollupWarn) => {
     handleCircularDependancyWarning(warning, rollupWarn)
