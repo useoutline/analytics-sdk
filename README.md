@@ -10,13 +10,13 @@ The SDK is designed to be simple and developer-friendly. It offers a cookie-free
 
 Install the Outline Analytics SDK using npm:
 
-```
+```bash
 npm install @useoutline/analytics
 ```
 
 or using Yarn:
 
-```
+```bash
 yarn add @useoutline/analytics
 ```
 
@@ -60,7 +60,6 @@ You can also pass an options object to the `useOutlineAnalytics` function. All p
 
 ```javascript
 const options = {
-  extendPageData: false,
   serverUrl: 'https://api.useoutline.xyz',
   apiVersion: 'v1',
   debug: false,
@@ -72,8 +71,8 @@ await useOutlineAnalytics('OA-xxxxx', options)
 
 #### Option Properties
 
-- `extendPageData`: Set it to `true` to track additional page details like page hash, query parameters, and full path. Defaults to `false`, where only the page path and page title will be tracked.
 - `serverUrl`: Specify the URL of the analytics server. Defaults to `'https://api.useoutline.xyz'`. If you are using a self-hosted solution, provide your Outline Analytics server's URL here.
+- `apiVersion`: Specify the API version to use. Defaults to `'v1'`. If you are using a self-hosted solution, provide your Outline Analytics server's API version here.
 - `debug`: Set it to `true` to enable console logs for debugging. Recommended for development, not recommended for production. Defaults to `false`.
 - `mock`: Set it to `true` to disable sending events and sessions to the server. Useful for testing and development environments. Defaults to `false`.
 

@@ -1,7 +1,6 @@
 type TrackingState = 'preinit' | 'tracking' | 'stopped'
 
 type InitOptions = {
-  extendPageData?: boolean
   serverUrl?: string
   apiVersion?: 'v1'
   debug?: boolean
@@ -9,15 +8,11 @@ type InitOptions = {
 }
 
 type PageData = {
-  path: string
-  query?: string
-  hash?: string
-  fullpath?: string
-  title?: string
-  meta?: PageMeta
+  fullpath: string
+  title: string
+  referrer?: string
+  meta?: Record<string, string>
 }
-
-type PageMeta = Record<string, string | number | null | undefined>
 
 type Selector = string | 'document' | 'window'
 
@@ -39,5 +34,4 @@ export type {
   AnalyticsEvents,
   EventKind,
   Selector,
-  PageMeta,
 }

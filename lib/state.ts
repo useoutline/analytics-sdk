@@ -4,7 +4,6 @@ type StateKind = {
   trackingState: TrackingState
   analyticsId: string
   visitorUid: string
-  extendedPageData: boolean
   analyticsEvents: AnalyticsEvents
   debug: boolean
   mock: boolean
@@ -21,7 +20,6 @@ const state: ReactiveState = {
     trackingState: 'preinit',
     analyticsId: '',
     visitorUid: '',
-    extendedPageData: false,
     analyticsEvents: [],
     debug: false,
     mock: false,

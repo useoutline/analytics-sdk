@@ -40,14 +40,13 @@ async function init(analyticsId: string, options?: InitOptions) {
     visitorUid,
     sessionId: pageSessionId,
     analyticsEvents: events,
-    extendedPageData: options?.extendPageData ? true : false,
   })
 
   startTracking()
   startPageSession()
   const page = getPageData()
   window.addEventListener('pagehide', () => {
-    page.meta = { ...page.meta, event: 'pagehide' }
+    page.meta = { event: 'pagehide' }
     endPageSession(page)
   })
 

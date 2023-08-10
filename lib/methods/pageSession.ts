@@ -18,7 +18,10 @@ function endPageSession(page?: PageData) {
   if (!state.value.mock) {
     trackSession(trackingPage, pageVisitedTime, pageLeftTime)
   }
-  logger.log('Page session ended', `"${trackingPage.path}"`)
+  logger.log(
+    'Page session ended',
+    `"${new URL(trackingPage.fullpath).pathname}"`
+  )
 }
 
 export { startPageSession, endPageSession }
