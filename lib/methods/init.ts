@@ -46,8 +46,19 @@ async function init(analyticsId: string, options?: InitOptions) {
   startPageSession()
   const page = getPageData()
   window.addEventListener('pagehide', () => {
+    logger.log('Page hide event')
     page.meta = { event: 'pagehide' }
     endPageSession(page)
+  })
+  document.addEventListener('visibilitychange', () => {
+    logger.log('Visibility change', document.visibilityState)
+    if (document.visibilityState === 'hidden') {
+      page.meta = { event: 'visibilitychange' }
+      endPageSession(page)
+    } else {
+      startTracking()
+      startPageSession()
+    }
   })
 
   sendDefaultEvent('internal', 'pageview')
