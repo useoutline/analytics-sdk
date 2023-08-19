@@ -50,6 +50,13 @@ async function init(analyticsId: string, options?: InitOptions) {
     page.meta = { event: 'pagehide' }
     endPageSession(page)
   })
+  window.addEventListener('pageshow', (event) => {
+    if (event.persisted) {
+      logger.log('Page show event')
+      startTracking()
+      startPageSession()
+    }
+  })
   document.addEventListener('visibilitychange', () => {
     logger.log('Visibility change', document.visibilityState)
     if (document.visibilityState === 'hidden') {
