@@ -34,7 +34,7 @@ describe('Initialize SDK and use functions', () => {
         '"/"'
       )
     })
-    window.dispatchEvent(new Event('pagehide'))
+    window.dispatchEvent(new CustomEvent('pagehide'))
   })
 
   test('Start and stop tracking success', async () => {
@@ -61,6 +61,19 @@ describe('Initialize SDK and use functions', () => {
       'Custom event',
       '"test"'
     )
+    analytics.setData({ test: 'test' })
+    expect(state.value.data).toEqual({ test: 'test' })
+    window.addEventListener('pageshow', () => {
+      expect(spy).toHaveBeenLastCalledWith(
+        '[Outline Logger]',
+        'Page session started',
+        '"/"'
+      )
+    })
+    const customEvent = new CustomEvent('pageshow')
+    // @ts-ignore
+    customEvent.persisted = true
+    window.dispatchEvent(customEvent)
   })
 
   afterAll(() => {

@@ -31,14 +31,12 @@ async function init(analyticsId: string, options?: InitOptions) {
   if (!persistedVisitorUid)
     localStorage.setItem(OUTLINE_VISITOR_UID_KEY, visitorUid)
 
-  const persistedSessionId = sessionStorage.getItem(PAGE_SESSION_KEY)
-  const pageSessionId = persistedSessionId || `OAS-${getRandomValue()}`
-  if (!persistedSessionId)
-    sessionStorage.setItem(PAGE_SESSION_KEY, pageSessionId)
+  let sessionId = sessionStorage.getItem(PAGE_SESSION_KEY)
   const events = await getTrackingEvents()
+  if (!sessionId) sessionId = generateNewSessionId()
   state.setState({
     visitorUid,
-    sessionId: pageSessionId,
+    sessionId,
     analyticsEvents: events,
   })
 
@@ -53,8 +51,8 @@ async function init(analyticsId: string, options?: InitOptions) {
     endPageSession({ meta: { event: 'pagehide' } })
   })
   window.addEventListener('pageshow', (event) => {
+    logger.log('Page show event')
     if (event.persisted) {
-      logger.log('Page show event')
       if (pageLeftTime && Date.now() - pageLeftTime > maxSessionAllowed) {
         generateNewSessionId()
       }
@@ -93,6 +91,7 @@ function generateNewSessionId() {
   const newPageSessionId = `OAS-${getRandomValue()}`
   sessionStorage.setItem(PAGE_SESSION_KEY, newPageSessionId)
   state.setState({ sessionId: newPageSessionId })
+  return newPageSessionId
 }
 
 function startTracking() {

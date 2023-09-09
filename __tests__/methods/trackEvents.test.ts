@@ -7,6 +7,7 @@ jest.mock('@/apis', () => {
     trackSession: jest.fn(() => Promise.resolve({ success: true })),
   }
 })
+const realLocation = window.location
 
 describe('Track events', () => {
   state.setState({
@@ -17,6 +18,14 @@ describe('Track events', () => {
         selector: 'document',
         trigger: 'click',
         event: 'btn-click',
+        page: '/:id/:name/userprofile',
+      },
+      {
+        selectorType: 'selector',
+        selector: 'window',
+        trigger: 'click',
+        event: 'btn-click',
+        page: '/:id/:name/user',
       },
       {
         selectorType: 'selector',
@@ -46,9 +55,14 @@ describe('Track events', () => {
     ],
   })
   test('Track events', async () => {
+    // @ts-ignore
+    delete window.location
+    // @ts-ignore
+    window.location = new URL('http://google.com/:id/:name/userprofile')
     await trackEvents()
     const forEachMock = jest.spyOn(Array.prototype, 'forEach')
     expect(forEachMock).toHaveBeenCalled()
+    window.dispatchEvent(new CustomEvent('click'))
   })
 
   test('Remove events', async () => {
@@ -58,6 +72,7 @@ describe('Track events', () => {
   })
 
   afterEach(() => {
+    window.location = realLocation
     jest.restoreAllMocks()
   })
 })
