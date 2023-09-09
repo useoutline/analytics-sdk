@@ -5,7 +5,7 @@ import type { InitOptions } from '@/types'
 import { startPageSession, endPageSession } from '@/methods/pageSession'
 import { sendEvent, sendDefaultEvent } from '@/methods/sendEvent'
 import { enableSPATracking } from '@/methods/spaTracking'
-import { removeEvents, trackEvents } from '@/methods/trackEvents'
+import { trackEvents } from '@/methods/trackEvents'
 import { getPageData } from '@/methods/getPageData'
 import {
   PAGE_SESSION_KEY,
@@ -19,6 +19,7 @@ async function init(analyticsId: string, options?: InitOptions) {
     analyticsId,
     debug: options?.debug,
     mock: options?.mock,
+    data: options?.data,
   })
   logger.log('Initialized with id ', `"${analyticsId}"`)
 
@@ -44,25 +45,33 @@ async function init(analyticsId: string, options?: InitOptions) {
 
   startTracking()
   startPageSession()
-  const page = getPageData()
+  let pageLeftTime: number
+  const maxSessionAllowed = 30 * 60 * 1000
+
   window.addEventListener('pagehide', () => {
     logger.log('Page hide event')
-    page.meta = { event: 'pagehide' }
-    endPageSession(page)
+    pageLeftTime = Date.now()
+    endPageSession({ meta: { event: 'pagehide' } })
   })
   window.addEventListener('pageshow', (event) => {
     if (event.persisted) {
       logger.log('Page show event')
+      if (pageLeftTime && Date.now() - pageLeftTime > maxSessionAllowed) {
+        generateNewSessionId()
+      }
       startTracking()
       startPageSession()
     }
   })
   document.addEventListener('visibilitychange', () => {
     logger.log('Visibility change', document.visibilityState)
+    pageLeftTime = Date.now()
     if (document.visibilityState === 'hidden') {
-      page.meta = { event: 'visibilitychange' }
-      endPageSession(page)
+      endPageSession({ meta: { event: 'visibilitychange' } })
     } else {
+      if (pageLeftTime && Date.now() - pageLeftTime > maxSessionAllowed) {
+        generateNewSessionId()
+      }
       startTracking()
       startPageSession()
     }
@@ -75,7 +84,16 @@ async function init(analyticsId: string, options?: InitOptions) {
     start: startTracking,
     stop: stopTracking,
     sendEvent,
+    setData: (data: Record<string, string | number>) => {
+      state.setState({ data })
+    },
   }
+}
+
+function generateNewSessionId() {
+  const newPageSessionId = `OAS-${getRandomValue()}`
+  sessionStorage.setItem(PAGE_SESSION_KEY, newPageSessionId)
+  state.setState({ sessionId: newPageSessionId })
 }
 
 function startTracking() {
@@ -87,7 +105,7 @@ function startTracking() {
 function stopTracking() {
   state.setState({ trackingState: 'stopped' })
   logger.log('Tracking stopped')
-  removeEvents()
+  trackEvents({ remove: true })
 }
 
 export { init }

@@ -11,15 +11,13 @@ jest.mock('@/apis', () => {
   }
 })
 
-crypto.randomUUID = jest.fn(() => 'abc-abc-abc-abc-abc')
-
 localStorage.setItem = jest.fn()
 localStorage.getItem = jest.fn(() => null)
 sessionStorage.setItem = jest.fn()
 sessionStorage.getItem = jest.fn(() => null)
 
 describe('Initialize SDK and use functions', () => {
-  test('Initialize SDK success', async () => {
+  test('Initialize SDK success and test pagehide event', async () => {
     const analytics = await useOutlineAnalytics('OA-test', {
       serverUrl: 'http://localhost',
     })
@@ -27,6 +25,16 @@ describe('Initialize SDK and use functions', () => {
     expect(analytics.start).toBeInstanceOf(Function)
     expect(analytics.stop).toBeInstanceOf(Function)
     expect(analytics.sendEvent).toBeInstanceOf(Function)
+    const spy = jest.spyOn(console, 'log')
+    state.setState({ debug: true })
+    window.addEventListener('pagehide', () => {
+      expect(spy).toHaveBeenLastCalledWith(
+        '[Outline Logger]',
+        'Page session ended',
+        '"/"'
+      )
+    })
+    window.dispatchEvent(new Event('pagehide'))
   })
 
   test('Start and stop tracking success', async () => {
@@ -53,20 +61,6 @@ describe('Initialize SDK and use functions', () => {
       'Custom event',
       '"test"'
     )
-  })
-
-  test('Page hide event', async () => {
-    const spy = jest.spyOn(console, 'log')
-    await useOutlineAnalytics('OA-test', { serverUrl: 'http://localhost' })
-    state.setState({ debug: true })
-    window.addEventListener('pagehide', () => {
-      expect(spy).toHaveBeenLastCalledWith(
-        '[Outline Logger]',
-        'Page session ended',
-        '"/"'
-      )
-    })
-    window.dispatchEvent(new Event('pagehide'))
   })
 
   afterAll(() => {

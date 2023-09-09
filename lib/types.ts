@@ -5,6 +5,7 @@ type InitOptions = {
   apiVersion?: 'v1'
   debug?: boolean
   mock?: boolean
+  data?: Record<string, string | number>
 }
 
 type PageData = {

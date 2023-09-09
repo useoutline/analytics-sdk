@@ -77,6 +77,7 @@ function trackSession(
       visitedAt: startTimestamp,
       leftAt: endTimestamp,
       capturedAt: Date.now(),
+      data: state.value.data,
     }),
     headers: getHeaders(),
   })

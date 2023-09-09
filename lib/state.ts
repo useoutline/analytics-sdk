@@ -8,6 +8,7 @@ type StateKind = {
   debug: boolean
   mock: boolean
   sessionId: string
+  data?: Record<string, string | number>
 }
 
 type ReactiveState = {

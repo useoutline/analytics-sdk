@@ -1,4 +1,4 @@
-import { trackEvents, removeEvents } from '../../lib/methods/trackEvents'
+import { trackEvents } from '../../lib/methods/trackEvents'
 import state from '../../lib/state'
 
 jest.mock('@/apis', () => {
@@ -52,7 +52,7 @@ describe('Track events', () => {
   })
 
   test('Remove events', async () => {
-    await removeEvents()
+    await trackEvents({ remove: true })
     const forEachMock = jest.spyOn(Array.prototype, 'forEach')
     expect(forEachMock).toHaveBeenCalled()
   })
