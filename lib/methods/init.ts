@@ -6,7 +6,6 @@ import { startPageSession, endPageSession } from '@/methods/pageSession'
 import { sendEvent, sendDefaultEvent } from '@/methods/sendEvent'
 import { enableSPATracking } from '@/methods/spaTracking'
 import { trackEvents } from '@/methods/trackEvents'
-import { getPageData } from '@/methods/getPageData'
 import {
   PAGE_SESSION_KEY,
   OUTLINE_API_ENDPOINT,
