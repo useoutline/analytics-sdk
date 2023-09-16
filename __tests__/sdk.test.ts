@@ -20,13 +20,14 @@ describe('Initialize SDK and use functions', () => {
   test('Initialize SDK success and test pagehide event', async () => {
     const analytics = await useOutlineAnalytics('OA-test', {
       serverUrl: 'http://localhost',
+      mock: true,
+      debug: true,
     })
     expect(analytics).toBeDefined()
     expect(analytics.start).toBeInstanceOf(Function)
     expect(analytics.stop).toBeInstanceOf(Function)
     expect(analytics.sendEvent).toBeInstanceOf(Function)
     const spy = jest.spyOn(console, 'log')
-    state.setState({ debug: true })
     window.addEventListener('pagehide', () => {
       expect(spy).toHaveBeenLastCalledWith(
         '[Outline Logger]',
@@ -41,8 +42,9 @@ describe('Initialize SDK and use functions', () => {
     const spy = jest.spyOn(console, 'log')
     const analytics = await useOutlineAnalytics('OA-test', {
       serverUrl: 'http://localhost',
+      mock: true,
+      debug: true,
     })
-    state.setState({ debug: true })
     analytics.start()
     expect(spy).toHaveBeenLastCalledWith('[Outline Logger]', 'Tracking started')
     analytics.stop()
@@ -53,8 +55,10 @@ describe('Initialize SDK and use functions', () => {
     const spy = jest.spyOn(console, 'log')
     const analytics = await useOutlineAnalytics('OA-test', {
       serverUrl: 'http://localhost',
+      mock: true,
+      debug: true,
     })
-    state.setState({ debug: true })
+    analytics.start()
     analytics.sendEvent('test')
     expect(spy).toHaveBeenLastCalledWith(
       '[Outline Logger]',

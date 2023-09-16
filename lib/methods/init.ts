@@ -13,6 +13,8 @@ import {
 } from '@/constants'
 import { getRandomValue } from '@/methods/randomValues'
 
+let isAlreadyInitialized = false
+
 async function init(analyticsId: string, options?: InitOptions) {
   state.setState({
     analyticsId,
@@ -40,42 +42,45 @@ async function init(analyticsId: string, options?: InitOptions) {
     analyticsEvents: events,
   })
 
-  startTracking()
-  startPageSession()
-  let pageLeftTime: number
-  const maxSessionAllowed = 30 * 60 * 1000
+  if (!isAlreadyInitialized) {
+    startTracking()
+    startPageSession()
+    let pageLeftTime: number
+    const maxSessionAllowed = 30 * 60 * 1000
 
-  window.addEventListener('pagehide', () => {
-    logger.log('Page hide event')
-    pageLeftTime = Date.now()
-    endPageSession({ meta: { event: 'pagehide' } })
-  })
-  window.addEventListener('pageshow', (event) => {
-    logger.log('Page show event')
-    if (event.persisted) {
-      if (pageLeftTime && Date.now() - pageLeftTime > maxSessionAllowed) {
-        generateNewSessionId()
+    window.addEventListener('pagehide', () => {
+      logger.log('Page hide event')
+      pageLeftTime = Date.now()
+      endPageSession({ meta: { event: 'pagehide' } })
+    })
+    window.addEventListener('pageshow', (event) => {
+      logger.log('Page show event')
+      if (event.persisted) {
+        if (pageLeftTime && Date.now() - pageLeftTime > maxSessionAllowed) {
+          generateNewSessionId()
+        }
+        startTracking()
+        startPageSession()
       }
-      startTracking()
-      startPageSession()
-    }
-  })
-  document.addEventListener('visibilitychange', () => {
-    logger.log('Visibility change', document.visibilityState)
-    pageLeftTime = Date.now()
-    if (document.visibilityState === 'hidden') {
-      endPageSession({ meta: { event: 'visibilitychange' } })
-    } else {
-      if (pageLeftTime && Date.now() - pageLeftTime > maxSessionAllowed) {
-        generateNewSessionId()
+    })
+    document.addEventListener('visibilitychange', () => {
+      logger.log('Visibility change', document.visibilityState)
+      pageLeftTime = Date.now()
+      if (document.visibilityState === 'hidden') {
+        endPageSession({ meta: { event: 'visibilitychange' } })
+      } else {
+        if (pageLeftTime && Date.now() - pageLeftTime > maxSessionAllowed) {
+          generateNewSessionId()
+        }
+        startTracking()
+        startPageSession()
       }
-      startTracking()
-      startPageSession()
-    }
-  })
+    })
 
-  sendDefaultEvent('internal', 'pageview')
-  enableSPATracking()
+    sendDefaultEvent('internal', 'pageview')
+    enableSPATracking()
+    isAlreadyInitialized = true
+  }
 
   return {
     start: startTracking,
