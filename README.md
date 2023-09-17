@@ -6,6 +6,23 @@ The SDK is designed to be simple and developer-friendly. It offers a cookie-free
 
 ![Outline Analytics SDK CI](https://github.com/useoutline/analytics-sdk/actions/workflows/node-ci.yml/badge.svg) ![Bundle Size](https://edge.bundlejs.com/badge?q=@useoutline/analytics) [![TypeScript](https://img.shields.io/badge/%3C%2F%3E-TypeScript-%230074c1.svg)](http://www.typescriptlang.org/) [![Coverage Status](https://coveralls.io/repos/github/useoutline/analytics-sdk/badge.svg)](https://coveralls.io/github/useoutline/analytics-sdk)
 
+
+## Table of Contents
+
+- [Outline Analytics SDK](#outline-analytics-sdk)
+  - [Installation](#installation)
+  - [Usage](#usage)
+    - [Init using modern frameworks (ES Modules)](#init-using-modern-frameworks-es-modules)
+    - [Init using the CDN](#init-using-the-cdn)
+    - [Init Options](#init-options)
+      - [Init Option Properties](#init-option-properties)
+    - [Methods](#methods)
+      - [`start()`](#start)
+      - [`stop()`](#stop)
+      - [`sendEvent(event: string, data?: Record<string, string | number>)`](#sendeventevent-string-data-recordstring-string--number)
+      - [`setData(data: Record<string, string | number>)`](#setdatadata-recordstring-string--number)
+    - [Typescript Support](#typescript-support)
+
 ## Installation
 
 Install the Outline Analytics SDK using npm:
