@@ -89,6 +89,17 @@ const options = {
 await useOutlineAnalytics('OA-xxxxx', options)
 ```
 
+Init returns a promise which resolves to an analytics object. The analytics object has four methods: `start`, `stop`, `sendEvent` and `setData`. You can use these methods to start and stop tracking, send custom events, and send additional data with every event.
+
+**Note:** Starting from version 1.0.8 and onward, the analytics object now includes an error property, represented as a boolean. This property is set to true if an error occurs during the SDK initialization process. You can use this property to check if the SDK is initialized successfully or not. This enhancement was introduced so the initialization can fail silently and not break the application. You can check the error property as follows:
+
+```javascript
+const analytics = await useOutlineAnalytics('OA-xxxxx')
+if (analytics.error) {
+  // try re-initializing the SDK
+}
+```
+
 #### Init Option Properties
 
 Options object is optional and has following properties:
@@ -101,7 +112,7 @@ Options object is optional and has following properties:
 
 ### Methods
 
-The `useOutlineAnalytics` function returns an analytics object with three methods: `start`, `stop`, `sendEvent` and `setData`.
+The `useOutlineAnalytics` function returns an analytics object with four methods: `start`, `stop`, `sendEvent` and `setData`.
 
 #### `start()`
 
@@ -146,3 +157,5 @@ analytics.setData({ key: 'value', a: 1, b: '2' })
 The SDK is built with TypeScript, so you can enjoy all the benefits of TypeScript type checking and auto-completion when using the Outline Analytics SDK in your projects.
 
 That's it! You are now ready to integrate Outline Analytics into your application and start tracking user interactions.
+
+If you have any questions or feedback, please feel free to reach out to us at <https://x.com/useoutlinexyz> or start a discussion on our GitHub repository at <https://github.com/orgs/useoutline/discussions>
