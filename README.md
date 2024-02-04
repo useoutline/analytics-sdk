@@ -91,13 +91,8 @@ await useOutlineAnalytics('OA-xxxxx', options)
 
 Init returns a promise which resolves to an analytics object. The analytics object has four methods: `start`, `stop`, `sendEvent` and `setData`. You can use these methods to start and stop tracking, send custom events, and send additional data with every event.
 
-**Note:** Starting from version 1.0.8 and onward, the analytics object now includes an error property, represented as a boolean. This property is set to true if an error occurs during the SDK initialization process. You can use this property to check if the SDK is initialized successfully or not. This enhancement was introduced so the initialization can fail silently and not break the application. You can check the error property as follows:
-
 ```javascript
 const analytics = await useOutlineAnalytics('OA-xxxxx')
-if (analytics.error) {
-  // try re-initializing the SDK
-}
 ```
 
 #### Init Option Properties

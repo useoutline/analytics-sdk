@@ -35,7 +35,9 @@ describe('Initialize SDK and use functions', () => {
         '"/"'
       )
     })
-    window.dispatchEvent(new CustomEvent('pagehide'))
+    setTimeout(() => {
+      window.dispatchEvent(new CustomEvent('pagehide'))
+    }, 1000)
   })
 
   test('Start and stop tracking success', async () => {
@@ -77,7 +79,9 @@ describe('Initialize SDK and use functions', () => {
     const customEvent = new CustomEvent('pageshow')
     // @ts-ignore
     customEvent.persisted = true
-    window.dispatchEvent(customEvent)
+    setTimeout(() => {
+      window.dispatchEvent(customEvent)
+    }, 1000)
   })
 
   afterAll(() => {
