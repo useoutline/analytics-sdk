@@ -49,6 +49,12 @@ or
 <script src="https://unpkg.com/@useoutline/analytics"></script>
 ```
 
+If you want to init the SDK using the CDN, you can use the following code:
+
+```html
+<script defer src="https://cdn.jsdelivr.net/npm/@useoutline/analytics" data-outline-analytics-id="OA-xxxxx"></script>
+```
+
 The bundled file size is less than 5kB.
 
 ## Usage
@@ -78,7 +84,6 @@ You can also pass an options object to the `useOutlineAnalytics` function. All p
 ```javascript
 const options = {
   serverUrl: 'https://api.useoutline.xyz',
-  apiVersion: 'v1',
   debug: false,
   mock: false,
   data: {
@@ -100,10 +105,19 @@ const analytics = await useOutlineAnalytics('OA-xxxxx')
 Options object is optional and has following properties:
 
 - `serverUrl`: [string] (Optional) Specify the URL of the analytics server. Defaults to `'https://api.useoutline.xyz'`. If you are using a self-hosted solution, provide your Outline Analytics server's URL here.
-- `apiVersion`: [string] (Optional) Specify the API version to use. Defaults to `'v1'`. If you are using a self-hosted solution, provide your Outline Analytics server's API version here.
 - `debug`: [boolean] (Optional) Set it to `true` to enable console logs for debugging. Recommended for development, not recommended for production. Defaults to `false`.
 - `mock`: [boolean] (Optional) Set it to `true` to disable sending events and sessions to the server. Useful for testing and development environments. Defaults to `false`.
 - `data`: [object where key is string and value can be string or number] (Optional) Set it to an object to send additional data with every event. You can include a maximum of three key-value pairs. If you provide more than three key-value pairs, the server will disregard the data option and will not store it.
+
+If you're initing using CDN and `data-outline-analytics-id` attribute, you can pass the following attributes to the same script
+**Note**: Here you can use following attributes to configure the SDK:
+
+- `data-outline-analytics-id`: [string] Specify the Outline Analytics ID to use. You can find this ID in the dashboard (console.useoutline.xyz).
+- `data-outline-analytics-server-url`: [string] Specify the URL of the analytics server. Defaults to `'https://api.useoutline.xyz'`. If you are using a self-hosted solution, provide your Outline Analytics server's URL here.
+- `data-outline-analytics-debug`: [boolean] Set it to `true` to enable console logs for debugging. Recommended for development, not recommended for production. Defaults to `false`.
+- `data-outline-analytics-mock`: [boolean] Set it to `true` to disable sending events and sessions to the server. Useful for testing and development environments. Defaults to `false`.
+- `data-outline-analytics-data-[key]`: where key is string and value can be string or number. You can include a maximum of three attributes of this kind. If you provide more than three attributes of this kind pairs, the server will disregard the data option and will not store it. Eg: `data-outline-analytics-data-a="1"`. Also note that the key should be in lowercase and separated by hyphens.
+
 
 ### Methods
 

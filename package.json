@@ -1,22 +1,22 @@
 {
   "name": "@useoutline/analytics",
-  "version": "0.1.9",
-  "description": "",
-  "main": "dist/useoutline-analytics.esm.js",
+  "version": "0.2.0",
+  "description": "Privacy Preserving, Cookie Free, Open Source Analytics tool for the Web",
+  "main": "dist/lib/index.js",
   "type": "module",
-  "module": "dist/useoutline-analytics.esm.js",
-  "jsdelivr": "dist/useoutline-analytics.umd.js",
-  "unpkg": "dist/useoutline-analytics.umd.js",
+  "module": "dist/lib/index.js",
+  "jsdelivr": "dist/lib/index.umd.js",
+  "unpkg": "dist/lib/index.umd.js",
   "exports": {
     ".": {
-      "require": "./dist/useoutline-analytics.esm.js",
-      "import": "./dist/useoutline-analytics.esm.js"
+      "require": "./dist/lib/index.js",
+      "import": "./dist/lib/index.js"
     }
   },
-  "types": "types/index.d.ts",
+  "types": "dist/lib/types/index.d.ts",
   "files": [
     "dist",
-    "types"
+    "dist/lib/types"
   ],
   "scripts": {
     "test": "jest",
@@ -24,11 +24,11 @@
     "clean:dist": "rimraf dist/",
     "clean:types": "rimraf types/",
     "build": "run-s test clean build:sdk ",
-    "build:sdk": "run-s build:esm build:umd build:types move:types",
+    "build:sdk": "run-s build:esm build:umd",
     "build:esm": "rollup --config rollup.es.config.js",
     "build:umd": "rollup --config rollup.umd.config.js",
     "build:types": "tsc --project tsconfig.json --emitDeclarationOnly && tsc-alias -p tsconfig.json",
-    "move:types": "cpy types dist",
+    "move:types": "cpy ./dist/lib/types/**/* ./types --flat",
     "format": "prettier --ignore-path .gitignore --write .",
     "lint": "eslint --ext .ts lib",
     "prepare": "husky install",

@@ -34,7 +34,7 @@ function getSelector(selector: Selector) {
 
 function trackEvents(data?: { remove?: boolean }) {
   const events = state.value.analyticsEvents
-  events.forEach((event) => {
+  events?.forEach((event) => {
     if (isCorrectPage(event.page as string)) {
       let selectors:
         | Document[]

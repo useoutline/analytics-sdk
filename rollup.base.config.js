@@ -5,7 +5,6 @@ import { handleCircularDependancyWarning } from 'node-stdlib-browser/helpers/rol
 import alias from '@rollup/plugin-alias'
 
 const baseConfig = {
-  input: './lib/index.ts',
   plugins: [
     alias({
       '@': './lib',
