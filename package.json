@@ -1,7 +1,11 @@
 {
   "name": "@useoutline/analytics",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Privacy Preserving, Cookie Free, Open Source Analytics tool for the Web",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/useoutline/analytics-sdk"
+  },
   "main": "dist/lib/index.js",
   "type": "module",
   "module": "dist/lib/index.js",
