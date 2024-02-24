@@ -21,6 +21,14 @@ global.fetch = jest.fn((url: string) => {
 localStorage.setItem = jest.fn()
 localStorage.getItem = jest.fn(() => null)
 
+AbortSignal.timeout = jest.fn((timeout: number) => {
+  return new AbortController().signal
+})
+
+beforeEach(() => {
+  jest.clearAllMocks()
+})
+
 describe('APIs', () => {
   state.setState({ analyticsId: 'OA-test' })
   createApiInstance('http://localhost', 'v1')

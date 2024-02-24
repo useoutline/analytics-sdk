@@ -17,14 +17,16 @@ type PageData = {
 
 type Selector = string | 'document' | 'window'
 
-type AnalyticsEvents = {
+type AnalyticsEvent = {
   event: string
   selectorType: 'id' | 'text' | 'selector'
   selector: Selector
   text?: string
   trigger: string
   page?: string
-}[]
+}
+
+type AnalyticsEvents = AnalyticsEvent[]
 
 type EventKind = 'external' | 'internal' | 'tag-based'
 
@@ -32,6 +34,7 @@ export type {
   TrackingState,
   InitOptions,
   PageData,
+  AnalyticsEvent,
   AnalyticsEvents,
   EventKind,
   Selector,

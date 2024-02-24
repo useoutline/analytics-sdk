@@ -22,6 +22,8 @@ function createApiInstance(baseURL: string, apiVersion: string) {
   ).href
 }
 
+const API_TIMEOUT = 1500
+
 function getHeaders() {
   const headers = new Headers({
     'Content-Type': 'application/json',
@@ -33,7 +35,10 @@ function getHeaders() {
 }
 
 async function getTrackingEvents() {
-  const res = await fetch(`${api.baseUrl}/events`, { method: 'GET' })
+  const res = await fetch(`${api.baseUrl}/events`, {
+    method: 'GET',
+    signal: AbortSignal.timeout(API_TIMEOUT),
+  })
   const data: { events: AnalyticsEvents } = await res.json()
   return data.events
 }
@@ -45,12 +50,10 @@ function trackEvent(
   data?: Record<string, string | number>
 ) {
   const uid = state.value.visitorUid
-  const sessionId = state.value.sessionId
   fetch(`${api.baseUrl}/event`, {
     method: 'POST',
     body: JSON.stringify({
       uid,
-      sessionId,
       event,
       type: eventType,
       page,
@@ -58,6 +61,7 @@ function trackEvent(
       capturedAt: Date.now(),
     }),
     headers: getHeaders(),
+    signal: AbortSignal.timeout(API_TIMEOUT),
   })
 }
 
@@ -67,12 +71,10 @@ function trackSession(
   endTimestamp: number
 ) {
   const uid = state.value.visitorUid
-  const sessionId = state.value.sessionId
   fetch(`${api.baseUrl}/session`, {
     method: 'POST',
     body: JSON.stringify({
       uid,
-      sessionId,
       page,
       visitedAt: startTimestamp,
       leftAt: endTimestamp,
@@ -80,6 +82,7 @@ function trackSession(
       data: state.value.data,
     }),
     headers: getHeaders(),
+    signal: AbortSignal.timeout(API_TIMEOUT),
   })
 }
 

@@ -7,7 +7,6 @@ type StateKind = {
   analyticsEvents: AnalyticsEvents
   debug: boolean
   mock: boolean
-  sessionId: string
   data?: Record<string, string | number>
 }
 
@@ -24,7 +23,6 @@ const state: ReactiveState = {
     analyticsEvents: [],
     debug: false,
     mock: false,
-    sessionId: '',
   },
   setState: (updatedState) => {
     state.value = { ...state.value, ...updatedState }

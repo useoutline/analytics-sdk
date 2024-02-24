@@ -16,6 +16,10 @@ localStorage.getItem = jest.fn(() => null)
 sessionStorage.setItem = jest.fn()
 sessionStorage.getItem = jest.fn(() => null)
 
+beforeEach(() => {
+  jest.clearAllMocks()
+})
+
 describe('Initialize SDK and use functions', () => {
   test('Initialize SDK success and test pagehide event', async () => {
     const analytics = await useOutlineAnalytics('OA-test', {
@@ -57,7 +61,6 @@ describe('Initialize SDK and use functions', () => {
     const spy = jest.spyOn(console, 'log')
     const analytics = await useOutlineAnalytics('OA-test', {
       serverUrl: 'http://localhost',
-      mock: true,
       debug: true,
     })
     analytics.start()

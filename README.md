@@ -6,7 +6,6 @@ The SDK is designed to be simple and developer-friendly. It offers a cookie-free
 
 ![Outline Analytics SDK CI](https://github.com/useoutline/analytics-sdk/actions/workflows/node-ci.yml/badge.svg) ![Bundle Size](https://edge.bundlejs.com/badge?q=@useoutline/analytics) [![TypeScript](https://img.shields.io/badge/%3C%2F%3E-TypeScript-%230074c1.svg)](http://www.typescriptlang.org/) [![Coverage Status](https://coveralls.io/repos/github/useoutline/analytics-sdk/badge.svg)](https://coveralls.io/github/useoutline/analytics-sdk)
 
-
 ## Table of Contents
 
 - [Outline Analytics SDK](#outline-analytics-sdk)
@@ -52,10 +51,14 @@ or
 If you want to init the SDK using the CDN, you can use the following code:
 
 ```html
-<script defer src="https://cdn.jsdelivr.net/npm/@useoutline/analytics" data-outline-analytics-id="OA-xxxxx"></script>
+<script
+  defer
+  src="https://cdn.jsdelivr.net/npm/@useoutline/analytics"
+  data-outline-analytics-id="OA-xxxxx"
+></script>
 ```
 
-The bundled file size is less than 5kB.
+The bundled file size is less than 6kB.
 
 ## Usage
 
@@ -87,8 +90,8 @@ const options = {
   debug: false,
   mock: false,
   data: {
-    'a': '1'
-  }
+    a: '1',
+  },
 }
 
 await useOutlineAnalytics('OA-xxxxx', options)
@@ -117,7 +120,6 @@ If you're initing using CDN and `data-outline-analytics-id` attribute, you can p
 - `data-outline-analytics-debug`: [boolean] Set it to `true` to enable console logs for debugging. Recommended for development, not recommended for production. Defaults to `false`.
 - `data-outline-analytics-mock`: [boolean] Set it to `true` to disable sending events and sessions to the server. Useful for testing and development environments. Defaults to `false`.
 - `data-outline-analytics-data-[key]`: where key is string and value can be string or number. You can include a maximum of three attributes of this kind. If you provide more than three attributes of this kind pairs, the server will disregard the data option and will not store it. Eg: `data-outline-analytics-data-a="1"`. Also note that the key should be in lowercase and separated by hyphens.
-
 
 ### Methods
 
