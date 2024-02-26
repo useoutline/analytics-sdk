@@ -6,6 +6,7 @@ import { sendDefaultEvent } from '@/methods/sendEvent'
 import logger from '@/logger'
 
 let pageBeforePopstate: PageData
+let referrer: string
 
 function generateHistoryState(
   historyStateVal: 'pushState' | 'replaceState',
@@ -13,7 +14,9 @@ function generateHistoryState(
 ) {
   logger.log("Tracking history's", historyStateVal)
   history[historyStateVal] = function (...args) {
-    endPageSession({ meta: { event: historyStateVal } })
+    endPageSession({
+      meta: { event: historyStateVal, referrer: window.location.href },
+    })
     const [data, unused, url] = args
     historyStateVar.apply(history, [data, unused, url])
     const currentPagePath = window.location.href
@@ -32,16 +35,22 @@ function enableSPATracking() {
   const pushState = history.pushState
   const replaceState = history.replaceState
   pageBeforePopstate = getPageData()
+  referrer = window.location.href
 
   generateHistoryState('pushState', pushState)
   generateHistoryState('replaceState', replaceState)
 
   window.addEventListener('popstate', () => {
     trackEvents({ remove: true })
-    pageBeforePopstate.meta = { ...pageBeforePopstate.meta, event: 'popstate' }
+    pageBeforePopstate.meta = {
+      ...pageBeforePopstate.meta,
+      event: 'popstate',
+      referrer,
+    }
     endPageSession(pageBeforePopstate)
     setTimeout(() => {
       pageBeforePopstate = getPageData()
+      referrer = window.location.href
       trackPageAfterChange()
       trackEvents()
     }, 1500)

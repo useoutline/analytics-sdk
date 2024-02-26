@@ -12,6 +12,8 @@ import { getRandomValue } from '@/methods/randomValues'
 let isAlreadyInitialized = false
 
 async function init(analyticsId: string, options?: InitOptions) {
+  let hasError = false
+  let errorReason: unknown | null = null
   try {
     if (!isAlreadyInitialized) {
       state.setState({
@@ -65,26 +67,19 @@ async function init(analyticsId: string, options?: InitOptions) {
     } else if (options?.data) {
       state.setState({ data: options.data })
     }
-
-    return {
-      error: false,
-      start: startTracking,
-      stop: stopTracking,
-      sendEvent,
-      setData: (data: Record<string, string | number>) => {
-        state.setState({ data })
-      },
-    }
   } catch (e) {
-    console.error('[Outline Analytics] Error initializing Outline', e)
-    return {
-      error: true,
-      start: () => void 0,
-      stop: () => void 0,
-      sendEvent: (event: string, data?: Record<string, string | number>) =>
-        void 0,
-      setData: (data: Record<string, string | number>) => void 0,
-    }
+    hasError = true
+    errorReason = e
+  }
+  return {
+    error: hasError,
+    errorReason,
+    start: startTracking,
+    stop: stopTracking,
+    sendEvent,
+    setData: (data: Record<string, string | number>) => {
+      state.setState({ data })
+    },
   }
 }
 
