@@ -1,23 +1,23 @@
 {
   "name": "@useoutline/analytics",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "description": "Privacy Preserving, Cookie Free, Open Source Analytics tool for the Web",
   "repository": {
     "type": "git",
     "url": "https://github.com/useoutline/analytics-sdk"
   },
-  "main": "dist/lib/index.js",
+  "main": "dist/lib/index",
   "type": "module",
-  "module": "dist/lib/index.js",
-  "jsdelivr": "dist/lib/index.umd.js",
-  "unpkg": "dist/lib/index.umd.js",
+  "module": "dist/lib/index",
+  "jsdelivr": "dist/lib/index.umd",
+  "unpkg": "dist/lib/index.umd",
   "exports": {
     ".": {
-      "require": "./dist/lib/index.js",
-      "import": "./dist/lib/index.js"
+      "require": "./dist/lib/index",
+      "import": "./dist/lib/index"
     }
   },
-  "types": "dist/lib/types/index.d.ts",
+  "types": "dist/lib/types/index.d",
   "files": [
     "dist",
     "dist/lib/types"
