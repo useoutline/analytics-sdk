@@ -22,7 +22,7 @@ function createApiInstance(baseURL: string, apiVersion: string) {
   ).href
 }
 
-const API_TIMEOUT = 1500
+const API_TIMEOUT = 3000
 
 function getHeaders() {
   const headers = new Headers({
