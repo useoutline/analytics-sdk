@@ -1,21 +1,20 @@
 {
   "name": "@useoutline/analytics",
-  "version": "0.2.13",
+  "version": "0.2.14",
   "description": "Privacy Preserving, Cookie Free, Open Source Analytics tool for the Web",
   "repository": {
     "type": "git",
     "url": "https://github.com/useoutline/analytics-sdk"
   },
-  "main": "dist/lib/index",
+  "main": "dist/useoutline-analytics.esm.js",
   "type": "module",
-  "module": "dist/index",
-  "jsdelivr": "dist/index.umd",
-  "unpkg": "dist/index.umd",
+  "module": "dist/useoutline-analytics.esm.js",
+  "jsdelivr": "dist/useoutline-analytics.umd.js",
+  "unpkg": "dist/useoutline-analytics.umd.js",
   "exports": {
     ".": {
-      "types": "./dist/index",
-      "require": "./dist/index",
-      "import": "./dist/index"
+      "require": "./dist/useoutline-analytics.esm.js",
+      "import": "./dist/useoutline-analytics.esm.js"
     }
   },
   "types": "types/index.d.ts",
@@ -33,7 +32,7 @@
     "build:esm": "rollup --config rollup.es.config.js",
     "build:umd": "rollup --config rollup.umd.config.js",
     "build:types": "tsc --project tsconfig.json --emitDeclarationOnly && tsc-alias",
-    "move:types": "cpy ./dist/lib/types/**/* ./dist/types --flat",
+    "move:types": "cpy types dist",
     "format": "prettier --ignore-path .gitignore --write .",
     "lint": "eslint --ext .ts lib",
     "prepare": "husky install",
