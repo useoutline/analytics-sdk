@@ -5,7 +5,7 @@ export default {
   input: ['lib/index.ts'],
   output: [
     {
-      dir: 'dist',
+      file: 'dist/index.js',
       format: 'es',
       compact: true,
     },

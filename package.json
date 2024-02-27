@@ -1,6 +1,6 @@
 {
   "name": "@useoutline/analytics",
-  "version": "0.2.12",
+  "version": "0.2.13",
   "description": "Privacy Preserving, Cookie Free, Open Source Analytics tool for the Web",
   "repository": {
     "type": "git",
@@ -13,15 +13,15 @@
   "unpkg": "dist/index.umd",
   "exports": {
     ".": {
-      "types": "./dist/index.d",
+      "types": "./dist/index",
       "require": "./dist/index",
       "import": "./dist/index"
     }
   },
-  "types": "dist/index.d",
-  "typings": "dist/index.d",
+  "types": "types/index.d.ts",
   "files": [
-    "dist"
+    "dist",
+    "types"
   ],
   "scripts": {
     "test": "jest",
@@ -29,7 +29,7 @@
     "clean:dist": "rimraf dist/",
     "clean:types": "rimraf types/",
     "build": "run-s test clean build:sdk ",
-    "build:sdk": "run-s build:esm build:umd build:types",
+    "build:sdk": "run-s build:esm build:umd build:types move:types",
     "build:esm": "rollup --config rollup.es.config.js",
     "build:umd": "rollup --config rollup.umd.config.js",
     "build:types": "tsc --project tsconfig.json --emitDeclarationOnly && tsc-alias",
