@@ -32,6 +32,7 @@ function init(analyticsId: string, options?: InitOptions) {
     getTrackingEvents()
       .then((events) => {
         state.setState({ analyticsEvents: events })
+        startTracking()
       })
       .catch(() => {
         console.error('Error fetching tracking events')
@@ -39,7 +40,6 @@ function init(analyticsId: string, options?: InitOptions) {
     state.setState({
       visitorUid,
     })
-    startTracking()
     startPageSession()
     sendDefaultEvent('internal', 'pageview')
     enableSPATracking()
