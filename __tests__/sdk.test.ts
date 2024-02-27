@@ -22,7 +22,7 @@ beforeEach(() => {
 
 describe('Initialize SDK and use functions', () => {
   test('Initialize SDK success and test pagehide event', async () => {
-    const analytics = await useOutlineAnalytics('OA-test', {
+    const analytics = useOutlineAnalytics('OA-test', {
       serverUrl: 'http://localhost',
       mock: true,
       debug: true,
@@ -46,7 +46,7 @@ describe('Initialize SDK and use functions', () => {
 
   test('Start and stop tracking success', async () => {
     const spy = jest.spyOn(console, 'log')
-    const analytics = await useOutlineAnalytics('OA-test', {
+    const analytics = useOutlineAnalytics('OA-test', {
       serverUrl: 'http://localhost',
       mock: true,
       debug: true,
@@ -59,7 +59,7 @@ describe('Initialize SDK and use functions', () => {
 
   test('Send Event success', async () => {
     const spy = jest.spyOn(console, 'log')
-    const analytics = await useOutlineAnalytics('OA-test', {
+    const analytics = useOutlineAnalytics('OA-test', {
       serverUrl: 'http://localhost',
       debug: true,
     })

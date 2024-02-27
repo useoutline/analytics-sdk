@@ -11,69 +11,64 @@ import { getRandomValue } from '@/methods/randomValues'
 
 let isAlreadyInitialized = false
 
-async function init(analyticsId: string, options?: InitOptions) {
-  let hasError = false
-  let errorReason: unknown | null = null
-  try {
-    if (!isAlreadyInitialized) {
-      state.setState({
-        analyticsId,
-        debug: options?.debug,
-        mock: options?.mock,
-        data: options?.data,
-      })
-      logger.log('Initialized with id ', `"${analyticsId}"`)
+function init(analyticsId: string, options?: InitOptions) {
+  if (!isAlreadyInitialized) {
+    state.setState({
+      analyticsId,
+      debug: options?.debug,
+      mock: options?.mock,
+      data: options?.data,
+    })
+    logger.log('Initialized with id ', `"${analyticsId}"`)
 
-      const apiVersion = options?.apiVersion || 'v1'
-      const serverUrl = options?.serverUrl || OUTLINE_API_ENDPOINT
-      createApiInstance(serverUrl, apiVersion)
+    const apiVersion = options?.apiVersion || 'v1'
+    const serverUrl = options?.serverUrl || OUTLINE_API_ENDPOINT
+    createApiInstance(serverUrl, apiVersion)
 
-      const persistedVisitorUid = localStorage.getItem(OUTLINE_VISITOR_UID_KEY)
-      const visitorUid = persistedVisitorUid || `OAU-${getRandomValue()}`
-      if (!persistedVisitorUid)
-        localStorage.setItem(OUTLINE_VISITOR_UID_KEY, visitorUid)
-      state.setState({
-        analyticsEvents: await getTrackingEvents(),
+    const persistedVisitorUid = localStorage.getItem(OUTLINE_VISITOR_UID_KEY)
+    const visitorUid = persistedVisitorUid || `OAU-${getRandomValue()}`
+    if (!persistedVisitorUid)
+      localStorage.setItem(OUTLINE_VISITOR_UID_KEY, visitorUid)
+    getTrackingEvents()
+      .then((events) => {
+        state.setState({ analyticsEvents: events })
       })
-      state.setState({
-        visitorUid,
+      .catch((error) => {
+        console.error('Error fetching tracking events', error)
       })
-      startTracking()
-      startPageSession()
-      sendDefaultEvent('internal', 'pageview')
-      enableSPATracking()
+    state.setState({
+      visitorUid,
+    })
+    startTracking()
+    startPageSession()
+    sendDefaultEvent('internal', 'pageview')
+    enableSPATracking()
 
-      window.addEventListener('pagehide', () => {
-        logger.log('Page hide event')
-        endPageSession({ meta: { event: 'pagehide' } })
-      })
-      window.addEventListener('pageshow', (event) => {
-        logger.log('Page show event')
-        if (event.persisted) {
-          startTracking()
-          startPageSession()
-        }
-      })
-      document.addEventListener('visibilitychange', () => {
-        logger.log('Visibility change', document.visibilityState)
-        if (document.visibilityState === 'hidden') {
-          endPageSession({ meta: { event: 'visibilitychange' } })
-        } else {
-          startTracking()
-          startPageSession()
-        }
-      })
-      isAlreadyInitialized = true
-    } else if (options?.data) {
-      state.setState({ data: options.data })
-    }
-  } catch (e) {
-    hasError = true
-    errorReason = e
+    window.addEventListener('pagehide', () => {
+      logger.log('Page hide event')
+      endPageSession({ meta: { event: 'pagehide' } })
+    })
+    window.addEventListener('pageshow', (event) => {
+      logger.log('Page show event')
+      if (event.persisted) {
+        startTracking()
+        startPageSession()
+      }
+    })
+    document.addEventListener('visibilitychange', () => {
+      logger.log('Visibility change', document.visibilityState)
+      if (document.visibilityState === 'hidden') {
+        endPageSession({ meta: { event: 'visibilitychange' } })
+      } else {
+        startTracking()
+        startPageSession()
+      }
+    })
+    isAlreadyInitialized = true
+  } else if (options?.data) {
+    state.setState({ data: options.data })
   }
   return {
-    error: hasError,
-    errorReason,
     start: startTracking,
     stop: stopTracking,
     sendEvent,
