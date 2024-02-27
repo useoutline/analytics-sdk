@@ -5,8 +5,8 @@
     "module": "commonjs",
     "moduleResolution": "node",
     "declaration": true,
-    "declarationDir": "dist/lib",
-    "outDir": "dist/lib",
+    "declarationDir": "dist",
+    "outDir": "dist",
     "strict": true,
     "noImplicitAny": true,
     "strictPropertyInitialization": false,
@@ -20,6 +20,6 @@
   "include": ["lib/*.ts", "lib/**/*.ts", "*.json"],
   "tsc-alias": {
     "resolveFullPaths": true,
-    "outDir": "dist/lib"
+    "outDir": "dist"
   }
 }

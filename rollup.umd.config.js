@@ -6,7 +6,7 @@ export default {
   output: [
     {
       format: 'umd',
-      file: 'dist/lib/index.umd.js',
+      file: 'dist/index.umd.js',
       compact: true,
     },
   ],
