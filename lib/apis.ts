@@ -61,7 +61,6 @@ function trackEvent(
       capturedAt: Date.now(),
     }),
     headers: getHeaders(),
-    signal: AbortSignal.timeout(API_TIMEOUT),
   })
 }
 
@@ -82,7 +81,6 @@ function trackSession(
       data: state.value.data,
     }),
     headers: getHeaders(),
-    signal: AbortSignal.timeout(API_TIMEOUT),
   })
 }
 

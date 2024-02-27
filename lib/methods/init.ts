@@ -33,8 +33,8 @@ function init(analyticsId: string, options?: InitOptions) {
       .then((events) => {
         state.setState({ analyticsEvents: events })
       })
-      .catch((error) => {
-        console.error('Error fetching tracking events', error)
+      .catch(() => {
+        console.error('Error fetching tracking events')
       })
     state.setState({
       visitorUid,
