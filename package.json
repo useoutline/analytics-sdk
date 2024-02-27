@@ -1,6 +1,6 @@
 {
   "name": "@useoutline/analytics",
-  "version": "0.2.15",
+  "version": "0.2.16",
   "description": "Privacy Preserving, Cookie Free, Open Source Analytics tool for the Web",
   "repository": {
     "type": "git",
@@ -13,11 +13,13 @@
   "unpkg": "dist/useoutline-analytics.umd.js",
   "exports": {
     ".": {
+      "types": "./types/index.d.ts",
       "require": "./dist/useoutline-analytics.esm.js",
       "import": "./dist/useoutline-analytics.esm.js"
     }
   },
   "types": "types/index.d.ts",
+  "typings": "types/index.d.ts",
   "files": [
     "dist",
     "types"
