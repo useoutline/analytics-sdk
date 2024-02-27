@@ -1,6 +1,6 @@
 {
   "name": "@useoutline/analytics",
-  "version": "0.2.4",
+  "version": "0.2.5",
   "description": "Privacy Preserving, Cookie Free, Open Source Analytics tool for the Web",
   "repository": {
     "type": "git",
@@ -13,11 +13,11 @@
   "unpkg": "dist/lib/index.umd",
   "exports": {
     ".": {
+      "types": "./dist/lib/types/index.d",
       "require": "./dist/lib/index",
       "import": "./dist/lib/index"
     }
   },
-  "types": "dist/lib/types/index.d",
   "files": [
     "dist",
     "dist/lib/types"
