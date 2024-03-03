@@ -29,13 +29,13 @@ function getHeaders() {
     'Content-Type': 'application/json',
   })
   if (window.navigator.brave) {
-    headers.append('X-Browser-Brave', '1')
+    headers.append('X-Outline-Browser', 'Brave')
   } else if (
     window
       .getComputedStyle(document.documentElement)
       .getPropertyValue('--arc-palette-title')
   ) {
-    headers.append('X-Browser-Arc', '1')
+    headers.append('X-Outline-Browser', 'Arc')
   }
   return headers
 }
