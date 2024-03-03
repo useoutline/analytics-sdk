@@ -30,6 +30,12 @@ function getHeaders() {
   })
   if (window.navigator.brave) {
     headers.append('X-Browser-Brave', '1')
+  } else if (
+    window
+      .getComputedStyle(document.documentElement)
+      .getPropertyValue('--arc-palette-title')
+  ) {
+    headers.append('X-Browser-Arc', '1')
   }
   return headers
 }
