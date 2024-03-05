@@ -1,13 +1,10 @@
 {
   "name": "@useoutline/analytics",
-  "version": "0.3.11",
+  "version": "0.3.12",
   "description": "Privacy Preserving, Cookie Free, Open Source Analytics tool for the Modern Web",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/useoutline/analytics-sdk.git"
-  },
-  "publishConfig": {
-    "registry": "https://npm.pkg.github.com"
   },
   "homepage": "https://useoutline.xyz",
   "main": "dist/index.js",

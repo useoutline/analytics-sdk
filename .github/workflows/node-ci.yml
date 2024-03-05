@@ -19,9 +19,6 @@ jobs:
           always-auth: true
       - run: yarn
       - run: yarn test
-      - run: |
-          echo @useoutline:https://npm.pkg.github.com/ > .npmrc
-          echo '//npm.pkg.github.com/:_authToken=${NODE_AUTH_TOKEN}' >> .npmrc
       - run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

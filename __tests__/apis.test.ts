@@ -22,6 +22,7 @@ localStorage.setItem = jest.fn()
 localStorage.getItem = jest.fn(() => null)
 
 AbortSignal.timeout = jest.fn((timeout: number) => {
+  console.log('timeout executed', timeout)
   return new AbortController().signal
 })
 
