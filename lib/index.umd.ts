@@ -1,11 +1,11 @@
 import { init } from '@/methods/init'
-import { InitOptions } from '@/types'
+import { AnalyticsOptions } from '@/types'
 
 declare global {
   interface Window {
     useOutlineAnalytics: (
       analyticsId: string,
-      options?: InitOptions
+      options?: AnalyticsOptions
     ) => {
       start: () => void
       stop: () => void
