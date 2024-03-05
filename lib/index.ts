@@ -7,4 +7,11 @@ import type {
 } from '@/types'
 
 export default init
-export type { InitOptions, AnalyticsEvent, PageData, AnalyticsEvents }
+type Analytics = ReturnType<typeof init>
+export type {
+  InitOptions as AnalyticsOptions,
+  AnalyticsEvent,
+  PageData,
+  AnalyticsEvents,
+  Analytics,
+}

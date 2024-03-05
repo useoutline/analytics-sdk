@@ -1,11 +1,8 @@
 {
   "name": "@useoutline/analytics",
-  "version": "0.3.6",
-  "description": "Privacy Preserving, Cookie Free, Open Source Analytics tool for the Web",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/useoutline/analytics-sdk"
-  },
+  "version": "0.3.7",
+  "description": "Privacy Preserving, Cookie Free, Open Source Analytics tool for the Modern Web",
+  "repository": "github:useoutline/analytics-sdk",
   "homepage": "https://useoutline.xyz",
   "main": "dist/index.js",
   "type": "module",
@@ -42,7 +39,7 @@
     "prepublishOnly": "yarn run build"
   },
   "keywords": [
-    "web analytics",
+    "modern web analytics",
     "analytics sdk",
     "privacy preserving analytics",
     "cookieless analytics",

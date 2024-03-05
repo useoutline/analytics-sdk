@@ -1,4 +1,6 @@
-# Outline Analytics SDK
+# Outline Analytics SDK (BETA)
+
+![npm](https://img.shields.io/npm/v/@useoutline/analytics)
 
 The Outline Analytics SDK is a powerful and lightweight JavaScript library that allows you to easily integrate analytics tracking into your web applications. With just a few lines of code, you can start capturing user events, page views, and sessions, and gain valuable insights into how users interact with your application.
 
@@ -163,6 +165,15 @@ analytics.setData({ key: 'value', a: 1, b: '2' })
 ### Typescript Support
 
 The SDK is built with TypeScript, so you can enjoy all the benefits of TypeScript type checking and auto-completion when using the Outline Analytics SDK in your projects.
+
+Some of the types that are exposed from the SDK are:
+
+```typescript
+import type {
+  AnalyticsOptions, // type for the options object to be passed to useOutlineAnalytics function
+  Analytics, // Return type of the useOutlineAnalytics function
+} from '@useoutline/analytics'
+```
 
 That's it! You are now ready to integrate Outline Analytics into your application and start tracking user interactions.
 
