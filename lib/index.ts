@@ -1,6 +1,6 @@
 import { init } from '@/methods/init'
 import type {
-  InitOptions,
+  AnalyticsOptions,
   AnalyticsEvent,
   PageData,
   AnalyticsEvents,
@@ -9,7 +9,7 @@ import type {
 export default init
 type Analytics = ReturnType<typeof init>
 export type {
-  InitOptions as AnalyticsOptions,
+  AnalyticsOptions,
   AnalyticsEvent,
   PageData,
   AnalyticsEvents,

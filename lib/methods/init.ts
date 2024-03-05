@@ -1,7 +1,7 @@
 import { createApiInstance, getTrackingEvents } from '@/apis'
 import logger from '@/logger'
 import state from '@/state'
-import type { InitOptions } from '@/types'
+import type { AnalyticsOptions } from '@/types'
 import { startPageSession, endPageSession } from '@/methods/pageSession'
 import { sendEvent, sendDefaultEvent } from '@/methods/sendEvent'
 import { enableSPATracking } from '@/methods/spaTracking'
@@ -11,7 +11,7 @@ import { getRandomValue } from '@/methods/randomValues'
 
 let isAlreadyInitialized = false
 
-function init(analyticsId: string, options?: InitOptions) {
+function init(analyticsId: string, options?: AnalyticsOptions) {
   if (!isAlreadyInitialized) {
     state.setState({
       analyticsId,
@@ -33,36 +33,37 @@ function init(analyticsId: string, options?: InitOptions) {
       .then((events) => {
         state.setState({ analyticsEvents: events })
         startTracking()
-        startPageSession()
-        sendDefaultEvent('internal', 'pageview')
-        enableSPATracking()
-
-        window.addEventListener('pagehide', () => {
-          logger.log('Page hide event')
-          endPageSession({ meta: { event: 'pagehide' } })
-        })
-        window.addEventListener('pageshow', (event) => {
-          logger.log('Page show event')
-          if (event.persisted) {
-            startTracking()
-            startPageSession()
-          }
-        })
-        document.addEventListener('visibilitychange', () => {
-          logger.log('Visibility change', document.visibilityState)
-          if (document.visibilityState === 'hidden') {
-            endPageSession({ meta: { event: 'visibilitychange' } })
-          } else {
-            startTracking()
-            startPageSession()
-          }
-        })
       })
       .catch(() => {
         console.error('Error fetching tracking events')
       })
     state.setState({
       visitorUid,
+      trackingState: 'tracking',
+    })
+    startPageSession()
+    sendDefaultEvent('internal', 'pageview')
+    enableSPATracking()
+
+    window.addEventListener('pagehide', () => {
+      logger.log('Page hide event')
+      endPageSession({ meta: { event: 'pagehide' } })
+    })
+    window.addEventListener('pageshow', (event) => {
+      if (event.persisted) {
+        logger.log('Page show event')
+        startTracking()
+        startPageSession()
+      }
+    })
+    document.addEventListener('visibilitychange', () => {
+      logger.log('Visibility change', document.visibilityState)
+      if (document.visibilityState === 'hidden') {
+        endPageSession({ meta: { event: 'visibilitychange' } })
+      } else {
+        startTracking()
+        startPageSession()
+      }
     })
     isAlreadyInitialized = true
   } else if (options?.data) {

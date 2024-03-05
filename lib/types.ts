@@ -1,6 +1,6 @@
 type TrackingState = 'preinit' | 'tracking' | 'stopped'
 
-type InitOptions = {
+type AnalyticsOptions = {
   serverUrl?: string
   apiVersion?: 'v1'
   debug?: boolean
@@ -32,7 +32,7 @@ type EventKind = 'external' | 'internal' | 'tag-based'
 
 export type {
   TrackingState,
-  InitOptions,
+  AnalyticsOptions,
   PageData,
   AnalyticsEvent,
   AnalyticsEvents,
