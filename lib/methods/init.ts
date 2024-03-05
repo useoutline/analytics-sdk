@@ -33,36 +33,36 @@ function init(analyticsId: string, options?: InitOptions) {
       .then((events) => {
         state.setState({ analyticsEvents: events })
         startTracking()
+        startPageSession()
+        sendDefaultEvent('internal', 'pageview')
+        enableSPATracking()
+
+        window.addEventListener('pagehide', () => {
+          logger.log('Page hide event')
+          endPageSession({ meta: { event: 'pagehide' } })
+        })
+        window.addEventListener('pageshow', (event) => {
+          logger.log('Page show event')
+          if (event.persisted) {
+            startTracking()
+            startPageSession()
+          }
+        })
+        document.addEventListener('visibilitychange', () => {
+          logger.log('Visibility change', document.visibilityState)
+          if (document.visibilityState === 'hidden') {
+            endPageSession({ meta: { event: 'visibilitychange' } })
+          } else {
+            startTracking()
+            startPageSession()
+          }
+        })
       })
       .catch(() => {
         console.error('Error fetching tracking events')
       })
     state.setState({
       visitorUid,
-    })
-    startPageSession()
-    sendDefaultEvent('internal', 'pageview')
-    enableSPATracking()
-
-    window.addEventListener('pagehide', () => {
-      logger.log('Page hide event')
-      endPageSession({ meta: { event: 'pagehide' } })
-    })
-    window.addEventListener('pageshow', (event) => {
-      logger.log('Page show event')
-      if (event.persisted) {
-        startTracking()
-        startPageSession()
-      }
-    })
-    document.addEventListener('visibilitychange', () => {
-      logger.log('Visibility change', document.visibilityState)
-      if (document.visibilityState === 'hidden') {
-        endPageSession({ meta: { event: 'visibilitychange' } })
-      } else {
-        startTracking()
-        startPageSession()
-      }
     })
     isAlreadyInitialized = true
   } else if (options?.data) {
