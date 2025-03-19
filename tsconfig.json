@@ -2,7 +2,7 @@
   "compilerOptions": {
     "lib": ["dom", "es2018"],
     "target": "es6",
-    "module": "commonjs",
+    "module": "esnext",
     "moduleResolution": "node",
     "declaration": true,
     "declarationDir": "types",
@@ -13,9 +13,11 @@
     "esModuleInterop": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
     "paths": {
       "@/*": ["./lib/*"]
     }
   },
-  "include": ["lib/*.ts", "lib/**/*.ts", "*.json"]
+  "include": ["lib/*.ts", "lib/**/*.ts", "*.json", "vite.config.ts"]
 }
