@@ -178,3 +178,66 @@ import type {
 That's it! You are now ready to integrate Outline Analytics into your application and start tracking user interactions.
 
 If you have any questions or feedback, please feel free to reach out to us at <https://x.com/useoutlinexyz> or start a discussion on our GitHub repository at <https://github.com/orgs/useoutline/discussions>
+
+## Development
+
+### Building the SDK
+
+The Outline Analytics SDK is built using Vite and TypeScript. The build process generates both ESM and UMD bundles for maximum compatibility.
+
+To set up the development environment:
+
+```bash
+# Install dependencies
+npm install
+
+# Run tests
+npm run test
+
+# Build the SDK
+npm run build
+
+# Verify the build and run tests
+npm run verify
+```
+
+### Architecture
+
+The SDK is designed with a focus on:
+
+1. **Privacy**: No cookies are used, only localStorage for visitor identification
+2. **Performance**: Event capturing is used instead of bubbling for better performance
+3. **Size**: The bundle is kept as small as possible for fast loading
+4. **Compatibility**: Both modern (ESM) and legacy (UMD) builds are provided
+
+#### Recent Optimizations
+
+- **Event Capturing**: Using event capturing at the document level for common events (click, submit, etc.) rather than attaching individual event listeners to elements
+- **Beacon API Support**: For more efficient analytics data transmission when users leave the page
+- **Reduced Payload Size**: Conditional inclusion of properties only when they exist
+- **Smart Event Handlers**: Better management of event handlers to prevent memory leaks
+- **Optimized Browser Detection**: Lighter and faster detection of browsers like Brave and Arc
+
+### Technology Stack
+
+- **TypeScript**: For type safety and modern JavaScript features
+- **Vite**: For fast and optimized builds with separate ESM and UMD outputs
+- **Vitest**: For comprehensive unit testing with JSDOM
+- **ESLint**: For code quality
+
+### Bundle Size
+
+The SDK is designed to be lightweight:
+
+- ESM build: ~4KB gzipped
+- UMD build: ~3KB gzipped
+
+### Contributing
+
+Contributions are welcome! Please feel free to submit a pull request.
+
+1. Fork the repository
+2. Create your feature branch: `git checkout -b feature/my-new-feature`
+3. Commit your changes: `git commit -am 'Add some feature'`
+4. Push to the branch: `git push origin feature/my-new-feature`
+5. Submit a pull request

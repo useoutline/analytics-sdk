@@ -1,8 +1,9 @@
+import { vi, describe, test, expect, afterAll } from 'vitest'
 import logger from '../lib/logger'
 import state from '../lib/state'
 
 describe('Logger', () => {
-  const spy = jest.spyOn(console, 'log')
+  const spy = vi.spyOn(console, 'log')
 
   test('Log with debug true', () => {
     state.setState({ debug: true })
@@ -11,6 +12,6 @@ describe('Logger', () => {
   })
 
   afterAll(() => {
-    jest.restoreAllMocks()
+    vi.restoreAllMocks()
   })
 })

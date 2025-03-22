@@ -1,22 +1,22 @@
 {
   "name": "@useoutline/analytics",
-  "version": "0.3.12",
+  "version": "0.4.0",
   "description": "Privacy Preserving, Cookie Free, Open Source Analytics tool for the Modern Web",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/useoutline/analytics-sdk.git"
   },
   "homepage": "https://useoutline.xyz",
-  "main": "dist/index.js",
+  "main": "dist/index.esm.js",
   "type": "module",
-  "module": "dist/index.js",
+  "module": "dist/index.esm.js",
   "jsdelivr": "dist/index.umd.js",
   "unpkg": "dist/index.umd.js",
   "exports": {
     ".": {
       "types": "./types/index.d.ts",
-      "require": "./dist/index.js",
-      "import": "./dist/index.js"
+      "require": "./dist/index.esm.js",
+      "import": "./dist/index.esm.js"
     }
   },
   "types": "types/index.d.ts",
@@ -26,20 +26,20 @@
     "types"
   ],
   "scripts": {
-    "test": "jest",
-    "clean": "run-p clean:dist clean:types",
-    "clean:dist": "rimraf dist/",
-    "clean:types": "rimraf types/",
-    "build": "run-s test clean build:sdk ",
-    "build:sdk": "run-s build:esm build:umd build:types move:types",
-    "build:esm": "rollup --config rollup.es.config.js",
-    "build:umd": "rollup --config rollup.umd.config.js",
+    "test": "vitest --run",
+    "clean": "rimraf dist types",
+    "dev": "vite",
+    "build": "run-s test clean build:sdk",
+    "build:sdk": "run-s build:esm build:umd build:types",
+    "build:esm": "vite build --config vite.esm.config.ts",
+    "build:umd": "vite build --config vite.umd.config.ts",
     "build:types": "tsc --project tsconfig.json --emitDeclarationOnly && tsc-alias",
-    "move:types": "cpy types dist",
     "format": "prettier --ignore-path .gitignore --write .",
     "lint": "eslint --ext .ts lib",
+    "coverage": "vitest --run --coverage",
+    "verify": "chmod +x ./verify.sh && ./verify.sh",
     "prepare": "husky install",
-    "prepublishOnly": "yarn run build"
+    "prepublishOnly": "npm run build"
   },
   "keywords": [
     "modern web analytics",
@@ -47,38 +47,29 @@
     "privacy preserving analytics",
     "cookieless analytics",
     "outline",
-    "useoutline"
+    "useoutline",
+    "outline analytics",
+    "outline analytics sdk",
+    "analytics"
   ],
   "author": "Shrinath Prabhu <https://github.com/shrinathprabhu>",
   "license": "MIT",
   "devDependencies": {
-    "@babel/core": "^7.21.4",
-    "@babel/preset-env": "^7.21.4",
-    "@babel/preset-typescript": "^7.21.4",
-    "@rollup/plugin-alias": "^5.0.0",
-    "@rollup/plugin-commonjs": "^24.1.0",
-    "@rollup/plugin-terser": "^0.4.1",
-    "@rollup/plugin-typescript": "^11.1.0",
-    "@types/jest": "^29.5.1",
-    "@typescript-eslint/eslint-plugin": "^5.59.1",
-    "@typescript-eslint/parser": "^5.59.1",
-    "babel-jest": "^29.5.0",
-    "cpy-cli": "^5.0.0",
-    "eslint": "^8.39.0",
-    "eslint-config-prettier": "^8.8.0",
-    "eslint-plugin-tsdoc": "^0.2.17",
-    "husky": "^8.0.0",
-    "jest": "^29.5.0",
-    "jest-environment-jsdom": "^29.5.0",
-    "lint-staged": "^13.2.2",
-    "node-stdlib-browser": "^1.2.0",
+    "@vitest/coverage-v8": "^3.0.9",
+    "eslint": "^9.22.0",
+    "eslint-config-prettier": "^10.1.1",
+    "eslint-plugin-tsdoc": "^0.4.0",
+    "husky": "^9.1.7",
+    "lint-staged": "^15.5.0",
     "npm-run-all": "^4.1.5",
-    "prettier": "^2.8.8",
-    "rimraf": "^5.0.0",
-    "rollup": "^3.21.0",
-    "ts-jest": "^29.1.0",
-    "tsc-alias": "^1.8.7",
-    "typescript": "^5.1.6"
-  },
-  "dependencies": {}
+    "prettier": "^3.5.3",
+    "rimraf": "^6.0.1",
+    "tsc-alias": "^1.8.11",
+    "typescript": "^5.8.2",
+    "typescript-eslint": "^8.26.1",
+    "vite": "^6.2.2",
+    "vite-plugin-dts": "^4.5.3",
+    "vite-tsconfig-paths": "^5.1.4",
+    "vitest": "^3.0.9"
+  }
 }

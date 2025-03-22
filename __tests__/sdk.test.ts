@@ -1,23 +1,24 @@
+import { vi, beforeEach, describe, test, expect, afterAll } from 'vitest'
 import useOutlineAnalytics from '../lib/index'
 import state from '../lib/state'
 
-jest.mock('@/apis', () => {
+vi.mock('@/apis', () => {
   return {
-    createApiInstance: jest.fn(),
-    getVisitorUid: jest.fn(() => Promise.resolve('OAU-test')),
-    getTrackingEvents: jest.fn(() => Promise.resolve([])),
-    trackEvent: jest.fn(() => Promise.resolve({ success: true })),
-    trackSession: jest.fn(() => Promise.resolve({ success: true })),
+    createApiInstance: vi.fn(),
+    getVisitorUid: vi.fn(() => Promise.resolve('OAU-test')),
+    getTrackingEvents: vi.fn(() => Promise.resolve([])),
+    trackEvent: vi.fn(() => Promise.resolve({ success: true })),
+    trackSession: vi.fn(() => Promise.resolve({ success: true })),
   }
 })
 
-localStorage.setItem = jest.fn()
-localStorage.getItem = jest.fn(() => null)
-sessionStorage.setItem = jest.fn()
-sessionStorage.getItem = jest.fn(() => null)
+localStorage.setItem = vi.fn()
+localStorage.getItem = vi.fn(() => null)
+sessionStorage.setItem = vi.fn()
+sessionStorage.getItem = vi.fn(() => null)
 
 beforeEach(() => {
-  jest.clearAllMocks()
+  vi.clearAllMocks()
 })
 
 describe('Initialize SDK and use functions', () => {
@@ -31,12 +32,12 @@ describe('Initialize SDK and use functions', () => {
     expect(analytics.start).toBeInstanceOf(Function)
     expect(analytics.stop).toBeInstanceOf(Function)
     expect(analytics.sendEvent).toBeInstanceOf(Function)
-    const spy = jest.spyOn(console, 'log')
+    const spy = vi.spyOn(console, 'log')
     window.addEventListener('pagehide', () => {
       expect(spy).toHaveBeenLastCalledWith(
         '[Outline Logger]',
         'Page session ended',
-        '"/"'
+        '"/"',
       )
     })
     setTimeout(() => {
@@ -45,7 +46,7 @@ describe('Initialize SDK and use functions', () => {
   })
 
   test('Start and stop tracking success', async () => {
-    const spy = jest.spyOn(console, 'log')
+    const spy = vi.spyOn(console, 'log')
     const analytics = useOutlineAnalytics('OA-test', {
       serverUrl: 'http://localhost',
       mock: true,
@@ -58,7 +59,7 @@ describe('Initialize SDK and use functions', () => {
   })
 
   test('Send Event success', async () => {
-    const spy = jest.spyOn(console, 'log')
+    const spy = vi.spyOn(console, 'log')
     const analytics = useOutlineAnalytics('OA-test', {
       serverUrl: 'http://localhost',
       debug: true,
@@ -68,7 +69,7 @@ describe('Initialize SDK and use functions', () => {
     expect(spy).toHaveBeenLastCalledWith(
       '[Outline Logger]',
       'Custom event',
-      '"test"'
+      '"test"',
     )
     analytics.setData({ test: 'test' })
     expect(state.value.data).toEqual({ test: 'test' })
@@ -76,11 +77,11 @@ describe('Initialize SDK and use functions', () => {
       expect(spy).toHaveBeenLastCalledWith(
         '[Outline Logger]',
         'Page session started',
-        '"/"'
+        '"/"',
       )
     })
     const customEvent = new CustomEvent('pageshow')
-    // @ts-ignore
+    // @ts-expect-error - This is a test
     customEvent.persisted = true
     setTimeout(() => {
       window.dispatchEvent(customEvent)
@@ -88,6 +89,6 @@ describe('Initialize SDK and use functions', () => {
   })
 
   afterAll(() => {
-    jest.restoreAllMocks()
+    vi.restoreAllMocks()
   })
 })

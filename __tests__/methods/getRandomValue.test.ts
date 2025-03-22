@@ -1,3 +1,4 @@
+import { describe, test, expect } from 'vitest'
 import { getRandomValue } from '../../lib/methods/randomValues'
 
 describe('Random values', () => {

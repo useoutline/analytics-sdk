@@ -1,3 +1,4 @@
+import { describe, test, expect } from 'vitest'
 import { getPageData } from '../../lib/methods/getPageData'
 
 describe('getPageData', () => {
