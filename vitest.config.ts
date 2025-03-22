@@ -7,7 +7,7 @@ export default defineConfig({
     globals: true,
     environment: 'jsdom',
     coverage: {
-      reporter: ['text', 'json', 'html'],
+      reporter: ['lcov', 'json', 'html'],
       exclude: [
         '**/*.config.*',
         '**/lib/index.umd.ts',
