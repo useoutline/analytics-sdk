@@ -1,3 +1,4 @@
+import { describe, test, beforeEach, expect } from 'vitest'
 import state from '../lib/state'
 
 describe('State', () => {
@@ -32,7 +33,6 @@ describe('State', () => {
 
     // Try to directly modify the state value (should fail silently)
     try {
-      // @ts-ignore - intentionally trying to mutate directly
       state.value.analyticsId = 'modified-directly'
     } catch (e) {
       // May throw in strict mode

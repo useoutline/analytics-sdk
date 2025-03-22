@@ -150,7 +150,7 @@ function getElementHandlers(
   if (!elementHandlers.has(element)) {
     elementHandlers.set(element, {})
   }
-  return elementHandlers.get(element)!
+  return elementHandlers.get(element) || {}
 }
 
 function trackEvents(data?: { remove?: boolean }) {
@@ -228,7 +228,7 @@ function trackEvents(data?: { remove?: boolean }) {
               }
 
               // Create new handler
-              const handler = (e: Event) => {
+              const handler = (_e: Event) => {
                 sendDefaultEvent('tag-based', event.event)
               }
 

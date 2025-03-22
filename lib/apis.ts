@@ -1,5 +1,11 @@
 import state from '@/state'
-import type { AnalyticsEvents, PageData, EventKind } from '@/types'
+import type {
+  CapturedEvent,
+  CapturedSession,
+  AnalyticsEvents,
+  PageData,
+  EventKind,
+} from '@/types'
 
 // Add proper type declaration
 declare global {
@@ -20,7 +26,7 @@ const isArcBrowser = (): boolean => {
     return !!window
       .getComputedStyle(document.documentElement)
       .getPropertyValue('--arc-palette-title')
-  } catch (e) {
+  } catch (_e) {
     return false
   }
 }
@@ -34,7 +40,7 @@ const api: {
 function createApiInstance(baseURL: string, apiVersion: string) {
   api.baseUrl = new URL(
     `${apiVersion}/${state.value.analyticsId}`,
-    baseURL
+    baseURL,
   ).href
 }
 
@@ -60,7 +66,7 @@ function getHeaders(): Record<string, string> {
 // Optimized API request with fetch timeout
 async function apiRequest<T>(
   endpoint: string,
-  options: RequestInit
+  options: RequestInit,
 ): Promise<T> {
   const controller = new AbortController()
   const timeoutId = setTimeout(() => controller.abort(), API_TIMEOUT)
@@ -99,12 +105,12 @@ function trackEvent(
   eventType: EventKind,
   event: string,
   page?: PageData,
-  data?: Record<string, string | number>
+  data?: Record<string, string | number>,
 ) {
   if (state.value.mock) return
 
   const uid = state.value.visitorUid
-  const payload = {
+  const payload: CapturedEvent = {
     uid,
     event,
     type: eventType,
@@ -113,12 +119,10 @@ function trackEvent(
 
   // Only add these properties if they exist to reduce payload size
   if (page) {
-    // @ts-ignore
     payload.page = page
   }
 
   if (data) {
-    // @ts-ignore
     payload.data = data
   }
 
@@ -132,7 +136,7 @@ function trackEvent(
       navigator.sendBeacon(`${api.baseUrl}/event`, blob)
       return
     } catch (e) {
-      // Fall back to fetch if beacon fails
+      console.error('Failed to send event:', e)
     }
   }
 
@@ -141,20 +145,20 @@ function trackEvent(
     method: 'POST',
     body: JSON.stringify(payload),
     headers: getHeaders(),
-  }).catch((error) => {
-    // Silent fail, analytics should never break the app
+  }).catch((_error) => {
+    console.error('Failed to send event:', _error)
   })
 }
 
 function trackSession(
   page: PageData,
   startTimestamp: number,
-  endTimestamp: number
+  endTimestamp: number,
 ) {
   if (state.value.mock) return
 
   const uid = state.value.visitorUid
-  const payload = {
+  const payload: CapturedSession = {
     uid,
     page,
     visitedAt: startTimestamp,
@@ -164,7 +168,6 @@ function trackSession(
 
   // Add data only if it exists
   if (state.value.data) {
-    // @ts-ignore
     payload.data = state.value.data
   }
 
@@ -177,7 +180,7 @@ function trackSession(
       navigator.sendBeacon(`${api.baseUrl}/session`, blob)
       return
     } catch (e) {
-      // Fall back to fetch if beacon fails
+      console.error('Failed to send session:', e)
     }
   }
 
@@ -186,7 +189,7 @@ function trackSession(
     method: 'POST',
     body: JSON.stringify(payload),
     headers: getHeaders(),
-  }).catch((error) => {
+  }).catch((_error) => {
     // Silent fail, analytics should never break the app
   })
 }

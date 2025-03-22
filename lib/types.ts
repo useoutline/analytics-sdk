@@ -26,6 +26,24 @@ type AnalyticsEvent = {
   page?: string
 }
 
+type CapturedEvent = {
+  event: string
+  type: EventKind
+  page?: PageData
+  data?: Record<string, string | number>
+  uid: string
+  capturedAt: number
+}
+
+type CapturedSession = {
+  uid: string
+  visitedAt: number
+  leftAt: number
+  page?: PageData
+  data?: Record<string, string | number>
+  capturedAt: number
+}
+
 type AnalyticsEvents = AnalyticsEvent[]
 
 type EventKind = 'external' | 'internal' | 'tag-based'
@@ -38,4 +56,6 @@ export type {
   AnalyticsEvents,
   EventKind,
   Selector,
+  CapturedEvent,
+  CapturedSession,
 }

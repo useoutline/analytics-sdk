@@ -1,17 +1,26 @@
+import {
+  vi,
+  beforeEach,
+  describe,
+  test,
+  expect,
+  afterAll,
+  afterEach,
+} from 'vitest'
 import { trackEvents } from '../../lib/methods/trackEvents'
 import state from '../../lib/state'
 import { sendDefaultEvent } from '../../lib/methods/sendEvent'
 
-jest.mock('@/apis', () => {
+vi.mock('@/apis', () => {
   return {
-    trackEvent: jest.fn(() => Promise.resolve({ success: true })),
-    trackSession: jest.fn(() => Promise.resolve({ success: true })),
+    trackEvent: vi.fn(() => Promise.resolve({ success: true })),
+    trackSession: vi.fn(() => Promise.resolve({ success: true })),
   }
 })
 
-jest.mock('@/methods/sendEvent', () => {
+vi.mock('@/methods/sendEvent', () => {
   return {
-    sendDefaultEvent: jest.fn(),
+    sendDefaultEvent: vi.fn(),
   }
 })
 
@@ -21,7 +30,7 @@ const realLocation = window.location
 describe('Track events', () => {
   beforeEach(() => {
     // Reset mock
-    jest.clearAllMocks()
+    vi.clearAllMocks()
 
     state.setState({
       trackingState: 'tracking',
@@ -106,17 +115,17 @@ describe('Track events', () => {
     // Clean up DOM elements
     document.body.innerHTML = ''
     // Reset mocks
-    jest.clearAllMocks()
+    vi.clearAllMocks()
   })
 
   test('Setup event tracking and triggering', () => {
     // Mock location for path pattern matching
     const oldLocation = window.location
-    // @ts-ignore
+    // @ts-expect-error - This is a test
     delete window.location
 
     // Create a URL that matches the path pattern
-    // @ts-ignore
+    // @ts-expect-error - This is a test
     window.location = {
       pathname: '/123/john/userprofile',
       href: 'http://example.com/123/john/userprofile',
@@ -145,15 +154,15 @@ describe('Track events', () => {
     expect(sendDefaultEvent).toHaveBeenCalledWith('tag-based', 'window-click')
     expect(sendDefaultEvent).toHaveBeenCalledWith(
       'tag-based',
-      'btn-click-with-text'
+      'btn-click-with-text',
     )
     expect(sendDefaultEvent).toHaveBeenCalledWith(
       'tag-based',
-      'btn-click-by-id'
+      'btn-click-by-id',
     )
     expect(sendDefaultEvent).toHaveBeenCalledWith(
       'tag-based',
-      'btn-click-by-class'
+      'btn-click-by-class',
     )
 
     // Restore location
@@ -173,7 +182,6 @@ describe('Track events', () => {
     const clickEvent = new MouseEvent('click', {
       bubbles: true,
       cancelable: true,
-      view: window,
     })
 
     const submitEvent = new Event('submit', {
@@ -195,15 +203,15 @@ describe('Track events', () => {
     // Multiple times for button (id, class, text)
     expect(sendDefaultEvent).toHaveBeenCalledWith(
       'tag-based',
-      'btn-click-by-id'
+      'btn-click-by-id',
     )
     expect(sendDefaultEvent).toHaveBeenCalledWith(
       'tag-based',
-      'btn-click-by-class'
+      'btn-click-by-class',
     )
     expect(sendDefaultEvent).toHaveBeenCalledWith(
       'tag-based',
-      'btn-click-with-text'
+      'btn-click-with-text',
     )
 
     // Form submit
@@ -219,11 +227,11 @@ describe('Track events', () => {
 
     // First, test with a matching path pattern
     const oldLocation = window.location
-    // @ts-ignore
+    // @ts-expect-error - This is a test
     delete window.location
 
     // Create a URL that matches the path pattern
-    // @ts-ignore
+    // @ts-expect-error - This is a test
     window.location = {
       pathname: '/123/john/userprofile',
       href: 'http://example.com/123/john/userprofile',
@@ -251,14 +259,14 @@ describe('Track events', () => {
     // The event should be tracked because the path matches
     expect(sendDefaultEvent).toHaveBeenCalledWith(
       'tag-based',
-      'path-specific-click'
+      'path-specific-click',
     )
 
     // Clean up
-    jest.clearAllMocks()
+    vi.clearAllMocks()
 
     // Now test a non-matching path
-    // @ts-ignore
+    // @ts-expect-error - This is a test
     window.location = {
       pathname: '/about',
       href: 'http://example.com/about',
@@ -287,14 +295,13 @@ describe('Track events', () => {
     trackEvents({ remove: true })
 
     // Clear mock to ensure we start fresh
-    jest.clearAllMocks()
+    vi.clearAllMocks()
 
     // Trigger events - they should not fire any handlers
     const button = document.getElementById('test-button')
     const clickEvent = new MouseEvent('click', {
       bubbles: true,
       cancelable: true,
-      view: window,
     })
 
     button?.dispatchEvent(clickEvent)
@@ -339,7 +346,7 @@ describe('Track events', () => {
     // Custom event should be tracked
     expect(sendDefaultEvent).toHaveBeenCalledWith(
       'tag-based',
-      'custom-event-triggered'
+      'custom-event-triggered',
     )
   })
 
@@ -377,7 +384,6 @@ describe('Track events', () => {
     const clickEvent = new MouseEvent('click', {
       bubbles: true,
       cancelable: true,
-      view: window,
     })
 
     button?.dispatchEvent(clickEvent)
@@ -385,15 +391,15 @@ describe('Track events', () => {
     // All three selectors should match our button
     expect(sendDefaultEvent).toHaveBeenCalledWith(
       'tag-based',
-      'id-selector-click'
+      'id-selector-click',
     )
     expect(sendDefaultEvent).toHaveBeenCalledWith(
       'tag-based',
-      'class-selector-click'
+      'class-selector-click',
     )
     expect(sendDefaultEvent).toHaveBeenCalledWith(
       'tag-based',
-      'text-selector-click'
+      'text-selector-click',
     )
   })
 
@@ -402,7 +408,7 @@ describe('Track events', () => {
     trackEvents()
 
     // Clear mock to see new calls only
-    jest.clearAllMocks()
+    vi.clearAllMocks()
 
     // Initialize tracking again
     trackEvents()
@@ -412,25 +418,25 @@ describe('Track events', () => {
     const clickEvent = new MouseEvent('click', {
       bubbles: true,
       cancelable: true,
-      view: window,
     })
 
     button?.dispatchEvent(clickEvent)
 
     // Count the number of calls for each event
     // Each should only be called once, not multiple times
-    const calls = (jest.mocked(sendDefaultEvent).mock.calls as any[][])
-      .filter((call) => call[0] === 'tag-based')
+    const calls = vi
+      .mocked(sendDefaultEvent)
+      .mock.calls.filter((call) => call[0] === 'tag-based')
       .map((call) => call[1])
 
     const idCalls = calls.filter(
-      (eventName) => eventName === 'btn-click-by-id'
+      (eventName) => eventName === 'btn-click-by-id',
     ).length
     const classCalls = calls.filter(
-      (eventName) => eventName === 'btn-click-by-class'
+      (eventName) => eventName === 'btn-click-by-class',
     ).length
     const textCalls = calls.filter(
-      (eventName) => eventName === 'btn-click-with-text'
+      (eventName) => eventName === 'btn-click-with-text',
     ).length
 
     expect(idCalls).toBe(1)
@@ -443,6 +449,6 @@ describe('Track events', () => {
     window.location = realLocation
 
     // Restore all mocks
-    jest.restoreAllMocks()
+    vi.restoreAllMocks()
   })
 })

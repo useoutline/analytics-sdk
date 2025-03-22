@@ -1,3 +1,4 @@
+import { vi, beforeEach, describe, test, expect, Mock } from 'vitest'
 import {
   createApiInstance,
   getTrackingEvents,
@@ -7,34 +8,34 @@ import {
 import state from '../lib/state'
 
 // Mock fetch
-global.fetch = jest.fn(() =>
+global.fetch = vi.fn(() =>
   Promise.resolve({
     json: () => Promise.resolve({ events: [] }),
     ok: true,
-  })
-) as jest.Mock
+  }),
+) as Mock
 
 // Mock AbortController
-global.AbortController = jest.fn().mockImplementation(() => ({
-  abort: jest.fn(),
+global.AbortController = vi.fn().mockImplementation(() => ({
+  abort: vi.fn(),
   signal: {},
 }))
 
 // Mock clear timeout
-global.clearTimeout = jest.fn()
+global.clearTimeout = vi.fn()
 
 // Mock sendBeacon
-const mockSendBeacon = jest.fn().mockReturnValue(true)
+const mockSendBeacon = vi.fn().mockReturnValue(true)
 Object.defineProperty(global.navigator, 'sendBeacon', {
   value: mockSendBeacon,
   writable: true,
 })
 
-const mockBlob = jest.fn().mockReturnValue({})
+const mockBlob = vi.fn().mockReturnValue({})
 global.Blob = mockBlob as unknown as typeof Blob
 
 beforeEach(() => {
-  jest.clearAllMocks()
+  vi.clearAllMocks()
   state.setState({
     analyticsId: 'OA-test',
     mock: false,
@@ -56,8 +57,8 @@ describe('API Tests', () => {
 
   test('Get tracking events handles errors gracefully', async () => {
     // Override fetch to simulate an error
-    global.fetch = jest.fn(() => Promise.reject('API error')) as jest.Mock
-    console.error = jest.fn()
+    global.fetch = vi.fn(() => Promise.reject('API error')) as Mock
+    console.error = vi.fn()
 
     const events = await getTrackingEvents()
 
@@ -80,7 +81,7 @@ describe('API Tests', () => {
       expect.objectContaining({
         method: 'POST',
         body: expect.stringContaining('test-event'),
-      })
+      }),
     )
     expect(mockSendBeacon).not.toHaveBeenCalled()
   })
@@ -96,7 +97,7 @@ describe('API Tests', () => {
     // Should use beacon API for internal events
     expect(mockBlob).toHaveBeenCalledWith(
       [expect.stringContaining('pageview')],
-      { type: 'application/json' }
+      { type: 'application/json' },
     )
     expect(mockSendBeacon).toHaveBeenCalled()
     expect(fetch).not.toHaveBeenCalled()

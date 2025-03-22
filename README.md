@@ -189,19 +189,16 @@ To set up the development environment:
 
 ```bash
 # Install dependencies
-yarn install
+npm install
 
 # Run tests
-yarn test
-
-# Run development server
-yarn dev
+npm run test
 
 # Build the SDK
-yarn build
+npm run build
 
 # Verify the build and run tests
-yarn verify
+npm run verify
 ```
 
 ### Architecture
@@ -225,7 +222,7 @@ The SDK is designed with a focus on:
 
 - **TypeScript**: For type safety and modern JavaScript features
 - **Vite**: For fast and optimized builds with separate ESM and UMD outputs
-- **Jest**: For comprehensive unit testing with JSDOM
+- **Vitest**: For comprehensive unit testing with JSDOM
 - **ESLint**: For code quality
 
 ### Bundle Size

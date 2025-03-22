@@ -1,8 +1,9 @@
+import { vi, beforeEach, describe, test, expect, afterAll } from 'vitest'
 import { sendEvent, sendDefaultEvent } from '../../lib/methods/sendEvent'
 import state from '../../lib/state'
 
-// @ts-ignore
-global.fetch = jest.fn((url: string) => {
+// @ts-expect-error - This is a test
+global.fetch = vi.fn((url: string) => {
   if (url.includes('/OA-test/events')) {
     return Promise.resolve({
       json: () => Promise.resolve({ events: [] }),
@@ -13,17 +14,17 @@ global.fetch = jest.fn((url: string) => {
   })
 })
 
-AbortSignal.timeout = jest.fn((timeout: number) => {
+AbortSignal.timeout = vi.fn((timeout: number) => {
   return new AbortController().signal
 })
 
 beforeEach(() => {
-  jest.clearAllMocks()
+  vi.clearAllMocks()
 })
 
 describe('Send Event', () => {
   test('Send Event success', async () => {
-    const spy = jest.spyOn(console, 'log')
+    const spy = vi.spyOn(console, 'log')
     state.setState({
       mock: false,
       debug: true,
@@ -34,12 +35,12 @@ describe('Send Event', () => {
     expect(spy).toHaveBeenLastCalledWith(
       '[Outline Logger]',
       'Custom event',
-      '"test"'
+      '"test"',
     )
   })
 
   test('Try send event when tracking is stopped', async () => {
-    const spy = jest.spyOn(console, 'log')
+    const spy = vi.spyOn(console, 'log')
     state.setState({
       mock: false,
       debug: true,
@@ -51,7 +52,7 @@ describe('Send Event', () => {
   })
 
   test('Try default send event when tracking is stopped', async () => {
-    const spy = jest.spyOn(console, 'log')
+    const spy = vi.spyOn(console, 'log')
     state.setState({
       mock: false,
       debug: true,
