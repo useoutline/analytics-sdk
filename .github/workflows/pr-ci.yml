@@ -1,8 +1,8 @@
 name: Node.js CI
 
 on:
-  push:
-    branches: [main]
+  pull_request:
+    branches: [main, dev]
 
 jobs:
   build:
@@ -16,10 +16,4 @@ jobs:
           registry-url: 'https://registry.npmjs.org'
           always-auth: true
       - run: npm install
-      - run: npm run coverage
-      - run: npm publish
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-
-      - name: Coveralls GitHub Action
-        uses: coverallsapp/github-action@v1
+      - run: npm run test
