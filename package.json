@@ -1,6 +1,6 @@
 {
   "name": "@useoutline/analytics",
-  "version": "0.4.2",
+  "version": "0.4.3",
   "description": "Privacy Preserving, Cookie Free, Open Source Analytics tool for the Modern Web",
   "repository": {
     "type": "git",
@@ -38,7 +38,7 @@
     "lint": "eslint --ext .ts lib",
     "coverage": "vitest --run --coverage",
     "verify": "chmod +x ./verify.sh && ./verify.sh",
-    "prepare": "husky install",
+    "prepare": "husky",
     "prepublishOnly": "npm run build"
   },
   "keywords": [
